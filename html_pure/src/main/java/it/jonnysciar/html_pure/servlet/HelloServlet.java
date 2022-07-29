@@ -1,4 +1,4 @@
-package it.jonnysciar.html_pure;
+package it.jonnysciar.html_pure.servlet;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
-@WebServlet(name = "helloServlet")
+@WebServlet("/helloServlet")
 public class HelloServlet extends HttpServlet {
     private String message;
 
