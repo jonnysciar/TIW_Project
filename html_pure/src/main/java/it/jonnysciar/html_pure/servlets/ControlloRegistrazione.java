@@ -3,7 +3,6 @@ package it.jonnysciar.html_pure.servlets;
 import it.jonnysciar.html_pure.beans.Utente;
 import it.jonnysciar.html_pure.dao.UtenteDAO;
 import it.jonnysciar.html_pure.database.DBConnection;
-
 import org.apache.commons.text.StringEscapeUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -16,14 +15,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-@WebServlet("/CheckLogin")
-public class CheckLogin extends HttpServlet {
-
+@WebServlet("/CheckSignUp")
+public class ControlloRegistrazione extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private Connection connection = null;
     private TemplateEngine templateEngine;
@@ -42,10 +39,21 @@ public class CheckLogin extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
+        String nome = StringEscapeUtils.escapeJava(request.getParameter("nome"));
+        String cognome = StringEscapeUtils.escapeJava(request.getParameter("cognome"));
         String username = StringEscapeUtils.escapeJava(request.getParameter("username"));
         String password = StringEscapeUtils.escapeJava(request.getParameter("password"));
+        String password2 = StringEscapeUtils.escapeJava(request.getParameter("password2"));
+        String checkbox = request.getParameter("checkbox");
 
-        if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
+        ServletContext servletContext = getServletContext();
+        final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+        if (checkbox != null) ctx.setVariable("value", checkbox);
+        else ctx.setVariable("value", "null");
+        String path = "/WEB-INF/templates/homepage.html";
+        templateEngine.process(path, ctx, response.getWriter());
+
+        /*if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing credential value");
         } else {
             // query db to authenticate for user
@@ -71,7 +79,7 @@ public class CheckLogin extends HttpServlet {
                 path = getServletContext().getContextPath() + "/";
                 response.sendRedirect(path);
             }
-        }
+        }*/
     }
 
     @Override
@@ -82,5 +90,4 @@ public class CheckLogin extends HttpServlet {
             e.printStackTrace();
         }
     }
-
 }
