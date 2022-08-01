@@ -14,9 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet("/homepage")
-public class Homepage extends HttpServlet {
-
+@WebServlet("/login")
+public class Login extends HttpServlet {
     private TemplateEngine templateEngine;
 
     @Override
@@ -31,13 +30,8 @@ public class Homepage extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        HttpSession session = request.getSession();
-        ServletContext servletContext = getServletContext();
-        final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-
-        Utente utente = (Utente) session.getAttribute("user");
-        ctx.setVariable("value", utente.getNome() + " " + utente.getCognome() + " è impiegato: " + utente.isImpiegato());
-        String path = "/WEB-INF/templates/homepage.html";
+        final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
+        String path = "/WEB-INF/templates/login.html";
         templateEngine.process(path, ctx, response.getWriter());
     }
 }

@@ -68,7 +68,7 @@ public class ControlloLogin extends HttpServlet {
                 templateEngine.process(path, ctx, response.getWriter());
             } else {
                 request.getSession().setAttribute("user", utente);
-                path = getServletContext().getContextPath() + "/";
+                path = getServletContext().getContextPath() + "/homepage";
                 response.sendRedirect(path);
             }
         }
