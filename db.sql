@@ -19,9 +19,9 @@
 -- Current Database: `tiwdb`
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `test` /*!40100 DEFAULT CHARACTER SET utf8mb3 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `tiwdb` /*!40100 DEFAULT CHARACTER SET utf8mb3 */;
 
-USE `test`;
+USE `tiwdb`;
 
 --
 -- Table structure for table `opzioni`
@@ -35,7 +35,7 @@ CREATE TABLE `opzioni` (
   `nome` varchar(45) NOT NULL,
   `tipo` enum('in offerta','normale') NOT NULL,
   PRIMARY KEY (`codice`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,6 +44,9 @@ CREATE TABLE `opzioni` (
 
 LOCK TABLES `opzioni` WRITE;
 /*!40000 ALTER TABLE `opzioni` DISABLE KEYS */;
+INSERT INTO `opzioni` VALUES
+(1,'colore','in offerta'),
+(2,'scritta','normale');
 /*!40000 ALTER TABLE `opzioni` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -117,7 +120,7 @@ CREATE TABLE `prodotti` (
   `nome` varchar(45) NOT NULL,
   `immagine` varchar(45) NOT NULL,
   PRIMARY KEY (`codice`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -126,6 +129,12 @@ CREATE TABLE `prodotti` (
 
 LOCK TABLES `prodotti` WRITE;
 /*!40000 ALTER TABLE `prodotti` DISABLE KEYS */;
+INSERT INTO `prodotti` VALUES
+(1,'maglietta','img'),
+(2,'pantaloni','img'),
+(3,'camicia','img'),
+(4,'felpa','img'),
+(5,'jeans','img');
 /*!40000 ALTER TABLE `prodotti` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -164,13 +173,13 @@ DROP TABLE IF EXISTS `utenti`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `utenti` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(45) NOT NULL,
+  `username` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   `password` varchar(45) NOT NULL,
   `nome` varchar(45) NOT NULL,
-  `cognome` varchar(45) NOT NULL,
+  `cognome` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   `impiegato` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -180,8 +189,10 @@ CREATE TABLE `utenti` (
 LOCK TABLES `utenti` WRITE;
 /*!40000 ALTER TABLE `utenti` DISABLE KEYS */;
 INSERT INTO `utenti` VALUES
-(1,'jonathan','ciao','jonathan','sciarrabba',0),
-(3,'pippo','pippo','pippo','pluto',1);
+(8,'mario','passmario','Mario','Rossi',1),
+(9,'marco','passmarco','Marco','Bianchi',0),
+(10,'jonathan','passjonathan','Jonathan','Sciarrabba',1),
+(11,'paolo','passpaolo','Paolo','Verdi',0);
 /*!40000 ALTER TABLE `utenti` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -194,4 +205,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-08-01 12:42:47
+-- Dump completed on 2022-08-02 17:12:40

@@ -18,33 +18,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.io.Serial;
 import java.sql.Connection;
 import java.sql.SQLException;
 
 @WebServlet("/CheckLogin")
-public class ControlloLogin extends HttpServlet {
+public class ControlloLogin extends ThymeLeafServlet {
 
+    @Serial
     private static final long serialVersionUID = 1L;
-    private Connection connection = null;
-    private TemplateEngine templateEngine;
-
-    @Override
-    public void init() throws ServletException {
-        ServletContext servletContext = getServletContext();
-        connection = DBConnection.getConnection(servletContext);
-
-        ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
-        templateResolver.setTemplateMode(TemplateMode.HTML);
-        this.templateEngine = new TemplateEngine();
-        this.templateEngine.setTemplateResolver(templateResolver);
-        templateResolver.setSuffix(".html");
-    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         String username = StringEscapeUtils.escapeJava(request.getParameter("username"));
         String password = StringEscapeUtils.escapeJava(request.getParameter("password"));
+        System.out.println(username);
 
         if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing credential value");

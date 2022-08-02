@@ -14,22 +14,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Connection;
+import java.io.Serial;
 
 @WebServlet("/registrazione")
-public class Registrazione extends HttpServlet {
+public class Registrazione extends ThymeLeafServlet {
 
-    private TemplateEngine templateEngine;
-
-    @Override
-    public void init() {
-        ServletContext servletContext = getServletContext();
-        ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
-        templateResolver.setTemplateMode(TemplateMode.HTML);
-        this.templateEngine = new TemplateEngine();
-        this.templateEngine.setTemplateResolver(templateResolver);
-        templateResolver.setSuffix(".html");
-    }
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

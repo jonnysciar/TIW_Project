@@ -1,5 +1,6 @@
 package it.jonnysciar.html_pure.servlets;
 
+import it.jonnysciar.html_pure.dao.ProdottoDAO;
 import it.jonnysciar.html_pure.database.DBConnection;
 
 import javax.servlet.annotation.WebServlet;
@@ -16,6 +17,7 @@ public class DBTest extends HttpServlet {
 
     private Connection connection;
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         String result = "Connection worked";

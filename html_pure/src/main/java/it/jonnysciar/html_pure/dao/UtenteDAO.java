@@ -1,15 +1,14 @@
 package it.jonnysciar.html_pure.dao;
 
+import com.mysql.cj.xdevapi.Result;
 import it.jonnysciar.html_pure.beans.Utente;
 
 import java.sql.*;
 
-public class UtenteDAO {
-
-    private final Connection connection;
+public class UtenteDAO extends DAO{
 
     public UtenteDAO(Connection connection) {
-        this.connection = connection;
+        super(connection);
     }
 
     public Utente checkCredentials(String username, String password) throws SQLException {
@@ -30,12 +29,11 @@ public class UtenteDAO {
     }
 
     public boolean addUtente(Utente utente, String password) throws SQLException {
-        String usernameQuery = "SELECT username from utenti";
-        try (Statement statement = connection.createStatement()) {
-            try (ResultSet result = statement.executeQuery(usernameQuery)) {
-                while (result.next()) {
-                    if (result.getString("username").equals(utente.getUsername())) return false;
-                }
+        String usernameQuery = "SELECT username FROM utenti WHERE username = ?";
+        try (PreparedStatement pstatement = connection.prepareStatement(usernameQuery)) {
+            pstatement.setString(1, utente.getUsername());
+            try (ResultSet result = pstatement.executeQuery()) {
+                if (result.isBeforeFirst()) return false;
             }
         }
 
