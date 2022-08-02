@@ -32,6 +32,7 @@ public class ControlloLogin extends HttpServlet {
     public void init() throws ServletException {
         ServletContext servletContext = getServletContext();
         connection = DBConnection.getConnection(servletContext);
+
         ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
         templateResolver.setTemplateMode(TemplateMode.HTML);
         this.templateEngine = new TemplateEngine();

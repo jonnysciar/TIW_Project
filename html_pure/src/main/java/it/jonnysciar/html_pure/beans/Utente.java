@@ -17,6 +17,13 @@ public class Utente {
         this.impiegato = impiegato;
     }
 
+    public Utente(String username, String nome, String cognome, boolean impiegato) {
+        this.username = username;
+        this.nome = nome;
+        this.cognome = cognome;
+        this.impiegato = impiegato;
+    }
+
     public int getId() {
         return id;
     }

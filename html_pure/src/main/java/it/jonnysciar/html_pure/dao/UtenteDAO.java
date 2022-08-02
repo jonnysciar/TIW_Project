@@ -1,13 +1,8 @@
 package it.jonnysciar.html_pure.dao;
 
 import it.jonnysciar.html_pure.beans.Utente;
-import it.jonnysciar.html_pure.database.DBConnection;
 
-import javax.servlet.ServletContext;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class UtenteDAO {
 
@@ -27,11 +22,31 @@ public class UtenteDAO {
                     return null;
                 else {
                     result.next();
-                    Utente utente = new Utente(result.getInt("id"), result.getString("username"),
+                    return new Utente(result.getInt("id"), result.getString("username"),
                             result.getString("nome"), result.getString("cognome"), result.getBoolean("impiegato"));
-                    return utente;
                 }
             }
+        }
+    }
+
+    public boolean addUtente(Utente utente, String password) throws SQLException {
+        String usernameQuery = "SELECT username from utenti";
+        try (Statement statement = connection.createStatement()) {
+            try (ResultSet result = statement.executeQuery(usernameQuery)) {
+                while (result.next()) {
+                    if (result.getString("username").equals(utente.getUsername())) return false;
+                }
+            }
+        }
+
+        String insertQuery = "INSERT INTO utenti (username, password, nome, cognome, impiegato) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement pstatement = connection.prepareStatement(insertQuery)) {
+            pstatement.setString(1, utente.getUsername());
+            pstatement.setString(2, password);
+            pstatement.setString(3, utente.getNome());
+            pstatement.setString(4, utente.getCognome());
+            pstatement.setBoolean(5, utente.isImpiegato());
+            return pstatement.executeUpdate() != 0;
         }
     }
 

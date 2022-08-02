@@ -21,6 +21,7 @@ import java.sql.SQLException;
 
 @WebServlet("/CheckSignUp")
 public class ControlloRegistrazione extends HttpServlet {
+
     private static final long serialVersionUID = 1L;
     private Connection connection = null;
     private TemplateEngine templateEngine;
@@ -29,6 +30,7 @@ public class ControlloRegistrazione extends HttpServlet {
     public void init() throws ServletException {
         ServletContext servletContext = getServletContext();
         connection = DBConnection.getConnection(servletContext);
+
         ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
         templateResolver.setTemplateMode(TemplateMode.HTML);
         this.templateEngine = new TemplateEngine();
@@ -38,6 +40,9 @@ public class ControlloRegistrazione extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setCharacterEncoding("UTF-8");
+        ServletContext servletContext = getServletContext();
+        final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
 
         String nome = StringEscapeUtils.escapeJava(request.getParameter("nome"));
         String cognome = StringEscapeUtils.escapeJava(request.getParameter("cognome"));
@@ -46,40 +51,27 @@ public class ControlloRegistrazione extends HttpServlet {
         String password2 = StringEscapeUtils.escapeJava(request.getParameter("password2"));
         String checkbox = request.getParameter("checkbox");
 
-        ServletContext servletContext = getServletContext();
-        final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-        if (checkbox != null) ctx.setVariable("value", checkbox);
-        else ctx.setVariable("value", "null");
-        String path = "/WEB-INF/templates/homepage.html";
-        templateEngine.process(path, ctx, response.getWriter());
-
-        /*if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing credential value");
+        if (nome == null || cognome == null || username == null || password == null || password2 == null) {
+            ctx.setVariable("errorMsg", "Alcuni campi non risultano compilati correttamente");
+            String path = "/WEB-INF/templates/registrazione.html";
+            templateEngine.process(path, ctx, response.getWriter());
+        } else if (!password.equals(password2)) {
+            ctx.setVariable("errorMsg", "Le password inserite non coincidono");
+            String path = "/WEB-INF/templates/registrazione.html";
+            templateEngine.process(path, ctx, response.getWriter());
         } else {
-            // query db to authenticate for user
-            UtenteDAO userDao = new UtenteDAO(connection);
-            Utente utente;
+            Utente utente = new Utente(username, nome, cognome, checkbox != null);
             try {
-                utente = userDao.checkCredentials(username, password);
+                if (new UtenteDAO(connection).addUtente(utente, password)) {
+                    String path = "/WEB-INF/templates/reg_successo.html";
+                    templateEngine.process(path, ctx, response.getWriter());
+                } else throw new SQLException();
             } catch (SQLException e) {
-                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not Possible to check credentials");
-                return;
-            }
-            // If the user exists, add info to the session and go to home page, otherwise
-            // show login page with error message
-            String path;
-            if (utente == null) {
-                ServletContext servletContext = getServletContext();
-                final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-                ctx.setVariable("errorMsg", "username o password non corretti");
-                path = "/WEB-INF/templates/login.html";
+                ctx.setVariable("errorMsg", "Username già in uso");
+                String path = "/WEB-INF/templates/registrazione.html";
                 templateEngine.process(path, ctx, response.getWriter());
-            } else {
-                request.getSession().setAttribute("user", utente);
-                path = getServletContext().getContextPath() + "/";
-                response.sendRedirect(path);
             }
-        }*/
+        }
     }
 
     @Override
