@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-public class FiltroNotLogged implements Filter {
+public class FiltroImpiegato implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         Filter.super.init(filterConfig);
@@ -20,16 +20,12 @@ public class FiltroNotLogged implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse res = (HttpServletResponse) servletResponse;
 
-        String homepath = req.getServletContext().getContextPath();
+        String loginpath = req.getServletContext().getContextPath() + "/login";
         HttpSession session = req.getSession();
 
-        if (!(session.isNew() || session.getAttribute("user") == null)) {
-            Utente utente = (Utente) session.getAttribute("user");
-
-            if (utente.isImpiegato()) homepath = homepath + "/homepageImpiegato";
-            else homepath = homepath + "/homepageUtente";
-
-            res.sendRedirect(homepath);
+        Utente utente = (Utente) session.getAttribute("user");
+        if (!utente.isImpiegato()) {
+            res.sendRedirect(loginpath);
             return;
         }
         // pass the request along the filter chain

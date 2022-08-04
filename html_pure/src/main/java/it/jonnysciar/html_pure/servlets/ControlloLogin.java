@@ -57,7 +57,11 @@ public class ControlloLogin extends ThymeLeafServlet {
                 templateEngine.process(path, ctx, response.getWriter());
             } else {
                 request.getSession().setAttribute("user", utente);
-                path = getServletContext().getContextPath() + "/homepage";
+
+                path = getServletContext().getContextPath();
+                if (utente.isImpiegato()) path = path + "/homepageImpiegato";
+                else path = path + "/homepageUtente";
+
                 response.sendRedirect(path);
             }
         }

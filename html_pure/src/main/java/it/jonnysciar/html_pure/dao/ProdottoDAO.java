@@ -24,4 +24,17 @@ public class ProdottoDAO extends DAO {
             }
         }
     }
+
+    public String findByCodice(int codice) throws SQLException {
+        String query = "SELECT nome FROM prodotti WHERE codice = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, codice);
+            try (ResultSet result = statement.executeQuery()) {
+                if (result.isBeforeFirst()) {
+                    result.next();
+                    return result.getString("nome");
+                } else return null;
+            }
+        }
+    }
 }

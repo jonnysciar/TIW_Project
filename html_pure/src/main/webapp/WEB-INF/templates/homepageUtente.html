@@ -28,6 +28,11 @@
   </nav>
 
   <div class="container mt-3">
+    <div class="row mt-3">
+      <div class="col d-flex justify-content-center">
+        <h4 th:text="'Benvenuto ' + ${name} + ', ecco cosa puoi fare:'"></h4>
+      </div>
+    </div>
     <div class="row">
       <div class="col d-flex justify-content-start">
         <form action="#" th:action="@{${buttonAction}}" method="POST">
@@ -35,10 +40,13 @@
             <h3 style="text-align: center">Richiedi il tuo preventivo!</h3>
           </div>
           <div class="row mb-3 d-flex align-items-center justify-content-center">
-            <select class="form-control" name="dropProduct">
-              <option value="0">Scegli il prodotto</option>
-              <option th:each="product : ${products}" th:name="prodotto${product.id}" th:text="${product.nome}"></option>
+            <select class="form-control" name="dropProduct" th:if="${!selected}">
+              <option th:each="product : ${products}" th:value="${product.id}" th:text="${product.nome}"></option>
             </select>
+            <p th:text="${productName}" style="text-align: center" th:if="${selected}" name="productName"></p>
+          </div>
+          <div class="row mb-3 d-flex align-items-center justify-content-center" th:if="${selected}">
+            <p style="text-align: center">Scelta opzioni</p>
           </div>
           <div class="row mb-3 d-flex align-items-center justify-content-center">
             <p th:text="${errorMsg}" style="text-align: center; color: red"></p>
