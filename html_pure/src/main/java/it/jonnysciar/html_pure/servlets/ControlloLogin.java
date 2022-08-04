@@ -33,7 +33,6 @@ public class ControlloLogin extends ThymeLeafServlet {
 
         String username = StringEscapeUtils.escapeJava(request.getParameter("username"));
         String password = StringEscapeUtils.escapeJava(request.getParameter("password"));
-        System.out.println(username);
 
         if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing credential value");

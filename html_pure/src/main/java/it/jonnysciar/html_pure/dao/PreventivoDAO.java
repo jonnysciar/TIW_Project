@@ -12,7 +12,7 @@ public class PreventivoDAO extends DAO{
     }
 
     public void getAll() throws SQLException {
-        String query = "SELECT codice, nome from preventivi";
+        String query = "SELECT id from preventivi";
         try (Statement statement = connection.createStatement()) {
             try (ResultSet result = statement.executeQuery(query)) {
                 while (result.next()) {

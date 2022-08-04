@@ -6,21 +6,23 @@ public class Utente {
     private String username;
     private String nome;
     private String cognome;
+    private String email;
     private boolean impiegato;
 
-
-    public Utente(int id, String username, String nome, String cognome, boolean impiegato) {
+    public Utente(int id, String username, String nome, String cognome, String email, boolean impiegato) {
         this.id = id;
         this.username = username;
         this.nome = nome;
         this.cognome = cognome;
+        this.email = email;
         this.impiegato = impiegato;
     }
 
-    public Utente(String username, String nome, String cognome, boolean impiegato) {
+    public Utente(String username, String nome, String cognome, String email, boolean impiegato) {
         this.username = username;
         this.nome = nome;
         this.cognome = cognome;
+        this.email = email;
         this.impiegato = impiegato;
     }
 
@@ -62,5 +64,13 @@ public class Utente {
 
     public void setImpiegato(boolean impiegato) {
         this.impiegato = impiegato;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

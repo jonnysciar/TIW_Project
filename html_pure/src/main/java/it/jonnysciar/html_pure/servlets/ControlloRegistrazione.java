@@ -4,6 +4,7 @@ import it.jonnysciar.html_pure.beans.Utente;
 import it.jonnysciar.html_pure.dao.UtenteDAO;
 import it.jonnysciar.html_pure.database.DBConnection;
 import org.apache.commons.text.StringEscapeUtils;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -34,12 +35,13 @@ public class ControlloRegistrazione extends ThymeLeafServlet {
 
         String nome = StringEscapeUtils.escapeJava(request.getParameter("nome"));
         String cognome = StringEscapeUtils.escapeJava(request.getParameter("cognome"));
+        String email = StringEscapeUtils.escapeJava(request.getParameter("email"));
         String username = StringEscapeUtils.escapeJava(request.getParameter("username"));
         String password = StringEscapeUtils.escapeJava(request.getParameter("password"));
         String password2 = StringEscapeUtils.escapeJava(request.getParameter("password2"));
         String checkbox = request.getParameter("checkbox");
 
-        if (nome == null || cognome == null || username == null || password == null || password2 == null) {
+        if (nome == null || cognome == null || email == null || username == null || password == null || password2 == null) {
             ctx.setVariable("errorMsg", "Alcuni campi non risultano compilati correttamente");
             String path = "/WEB-INF/templates/registrazione.html";
             templateEngine.process(path, ctx, response.getWriter());
@@ -47,15 +49,21 @@ public class ControlloRegistrazione extends ThymeLeafServlet {
             ctx.setVariable("errorMsg", "Le password inserite non coincidono");
             String path = "/WEB-INF/templates/registrazione.html";
             templateEngine.process(path, ctx, response.getWriter());
+        } else if (!EmailValidator.getInstance().isValid(email)) {
+            ctx.setVariable("errorMsg", "email non valida");
+            String path = "/WEB-INF/templates/registrazione.html";
+            templateEngine.process(path, ctx, response.getWriter());
         } else {
-            Utente utente = new Utente(username, nome, cognome, checkbox != null);
+            Utente utente = new Utente(username, nome, cognome, email, checkbox != null);
             try {
                 if (new UtenteDAO(connection).addUtente(utente, password)) {
                     String path = "/WEB-INF/templates/reg_successo.html";
                     templateEngine.process(path, ctx, response.getWriter());
                 } else throw new SQLException();
             } catch (SQLException e) {
-                ctx.setVariable("errorMsg", "Username già in uso");
+                String errorColumn = "username";
+                if (e.getMessage().contains("email")) errorColumn = "email";
+                ctx.setVariable("errorMsg",  errorColumn + " già in uso");
                 String path = "/WEB-INF/templates/registrazione.html";
                 templateEngine.process(path, ctx, response.getWriter());
             }
