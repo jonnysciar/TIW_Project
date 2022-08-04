@@ -32,9 +32,10 @@ DROP TABLE IF EXISTS `opzioni`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `opzioni` (
   `codice` int(11) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(45) NOT NULL,
+  `nome` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
   `tipo` enum('in offerta','normale') NOT NULL,
-  PRIMARY KEY (`codice`)
+  PRIMARY KEY (`codice`),
+  UNIQUE KEY `nome_UNIQUE` (`nome`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -117,9 +118,10 @@ DROP TABLE IF EXISTS `prodotti`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `prodotti` (
   `codice` int(11) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(45) NOT NULL,
-  `immagine` varchar(45) NOT NULL,
-  PRIMARY KEY (`codice`)
+  `nome` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `immagine` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  PRIMARY KEY (`codice`),
+  UNIQUE KEY `nome_UNIQUE` (`nome`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -173,12 +175,15 @@ DROP TABLE IF EXISTS `utenti`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `utenti` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
-  `password` varchar(45) NOT NULL,
-  `nome` varchar(45) NOT NULL,
-  `cognome` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `username` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `password` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `nome` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `cognome` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `email` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
   `impiegato` tinyint(4) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username_UNIQUE` (`username`),
+  UNIQUE KEY `email_UNIQUE` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -189,10 +194,10 @@ CREATE TABLE `utenti` (
 LOCK TABLES `utenti` WRITE;
 /*!40000 ALTER TABLE `utenti` DISABLE KEYS */;
 INSERT INTO `utenti` VALUES
-(8,'mario','passmario','Mario','Rossi',1),
-(9,'marco','passmarco','Marco','Bianchi',0),
-(10,'jonathan','passjonathan','Jonathan','Sciarrabba',1),
-(11,'paolo','passpaolo','Paolo','Verdi',0);
+(8,'mario','passmario','Mario','Rossi','mario.rossi@tiw.it',1),
+(9,'marco','passmarco','Marco','Bianchi','marco.bianchi@tiw.it',0),
+(10,'jonathan','passjonathan','Jonathan','Sciarrabba','jonathan.sciarrabba@tiw.it',1),
+(11,'paolo','passpaolo','Paolo','Verdi','paolo.verdi@tiw.it',0);
 /*!40000 ALTER TABLE `utenti` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -205,4 +210,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-08-02 17:12:40
+-- Dump completed on 2022-08-04 10:07:48
