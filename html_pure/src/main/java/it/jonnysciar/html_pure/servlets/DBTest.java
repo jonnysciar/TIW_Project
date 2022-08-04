@@ -1,6 +1,5 @@
 package it.jonnysciar.html_pure.servlets;
 
-import it.jonnysciar.html_pure.dao.ProdottoDAO;
 import it.jonnysciar.html_pure.database.DBConnection;
 
 import javax.servlet.annotation.WebServlet;

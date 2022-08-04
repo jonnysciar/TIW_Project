@@ -1,9 +1,11 @@
 package it.jonnysciar.html_pure.dao;
 
-import com.mysql.cj.xdevapi.Result;
 import it.jonnysciar.html_pure.beans.Utente;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class UtenteDAO extends DAO{
 

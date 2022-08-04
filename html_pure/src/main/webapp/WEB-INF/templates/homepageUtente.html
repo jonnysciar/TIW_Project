@@ -41,12 +41,20 @@
           </div>
           <div class="row mb-3 d-flex align-items-center justify-content-center">
             <select class="form-control" name="dropProduct" th:if="${!selected}">
+              <option th:disabled="disabled" selected="true" value="">Scegli un prodotto</option>
               <option th:each="product : ${products}" th:value="${product.id}" th:text="${product.nome}"></option>
             </select>
-            <p th:text="${productName}" style="text-align: center" th:if="${selected}" name="productName"></p>
+            <input type="hidden" th:value="${productName}" th:text="${productName}" style="text-align: center" th:if="${selected}" name="productName">
           </div>
           <div class="row mb-3 d-flex align-items-center justify-content-center" th:if="${selected}">
-            <p style="text-align: center">Scelta opzioni</p>
+            <table class="table">
+              <tbody>
+                <tr th:each="option : ${options}">
+                  <td th:text="${option.nome}">opzione1</td>
+                  <td><input type="checkbox" th:value="${option.codice}" name="checkbox"></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
           <div class="row mb-3 d-flex align-items-center justify-content-center">
             <p th:text="${errorMsg}" style="text-align: center; color: red"></p>

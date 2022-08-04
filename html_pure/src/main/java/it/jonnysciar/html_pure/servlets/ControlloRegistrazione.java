@@ -5,20 +5,14 @@ import it.jonnysciar.html_pure.dao.UtenteDAO;
 import it.jonnysciar.html_pure.database.DBConnection;
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.validator.routines.EmailValidator;
-import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
-import org.thymeleaf.templatemode.TemplateMode;
-import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.Serial;
-import java.sql.Connection;
 import java.sql.SQLException;
 
 @WebServlet("/CheckSignUp")
@@ -39,7 +33,7 @@ public class ControlloRegistrazione extends ThymeLeafServlet {
         String username = StringEscapeUtils.escapeJava(request.getParameter("username"));
         String password = StringEscapeUtils.escapeJava(request.getParameter("password"));
         String password2 = StringEscapeUtils.escapeJava(request.getParameter("password2"));
-        String checkbox = request.getParameter("checkbox");
+        String checkbox = StringEscapeUtils.escapeJava(request.getParameter("checkbox"));
 
         if (nome == null || cognome == null || email == null || username == null || password == null || password2 == null) {
             ctx.setVariable("errorMsg", "Alcuni campi non risultano compilati correttamente");

@@ -55,5 +55,6 @@
     <filter-mapping>
         <filter-name>FiltroUtente</filter-name>
         <url-pattern>/homepageUtente</url-pattern>
+        <url-pattern>/CheckPreventivo</url-pattern>
     </filter-mapping>
 </web-app>

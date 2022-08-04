@@ -1,15 +1,14 @@
 package it.jonnysciar.html_pure.servlets;
 
+import it.jonnysciar.html_pure.beans.Opzione;
 import it.jonnysciar.html_pure.beans.Prodotto;
 import it.jonnysciar.html_pure.beans.Utente;
 import it.jonnysciar.html_pure.dao.ProdottoDAO;
 import org.thymeleaf.context.WebContext;
 
-import javax.servlet.ServletContext;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.Serial;
 import java.sql.SQLException;
@@ -26,6 +25,7 @@ public class HomepageUtente extends ThymeLeafServlet {
 
         final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
         setupPage(request, response, ctx);
+
         ctx.setVariable("selected", false);
         ctx.setVariable("buttonAction", "/homepageUtente");
 
@@ -35,26 +35,34 @@ public class HomepageUtente extends ThymeLeafServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setCharacterEncoding("UTF-8");
-        ServletContext servletContext = getServletContext();
-        final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+
+        final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
+        setupPage(request, response, ctx);
 
         ProdottoDAO prodottoDAO = new ProdottoDAO(connection);
 
-
-        String nome;
+        Prodotto prodotto;
         try {
-            nome = prodottoDAO.findByCodice(Integer.parseInt(request.getParameter("dropProduct")));
+            prodotto = prodottoDAO.getByCodice(Integer.parseInt(request.getParameter("dropProduct")));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (NumberFormatException e) {
-            nome = null;
+            prodotto = null;
         }
 
-        setupPage(request, response, ctx);
-        if (nome != null) {
+        if (prodotto != null) {
+
+            List<Opzione> options;
+            try {
+                options = prodottoDAO.getAllOpzioniById(prodotto.getId());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            if (options != null) {
+                ctx.setVariable("options", options);
+            }
             ctx.setVariable("selected", true);
-            ctx.setVariable("productName", nome);
+            ctx.setVariable("productName", prodotto.getNome());
             ctx.setVariable("buttonAction", "/CheckPreventivo");
         } else {
             ctx.setVariable("selected", false);
@@ -62,18 +70,14 @@ public class HomepageUtente extends ThymeLeafServlet {
             ctx.setVariable("buttonAction", "/homepageUtente");
         }
 
-
-
-
         String path = "/WEB-INF/templates/homepageUtente.html";
         templateEngine.process(path, ctx, response.getWriter());
     }
 
-    public void setupPage(HttpServletRequest request, HttpServletResponse response, WebContext context) {
+    private void setupPage(HttpServletRequest request, HttpServletResponse response, WebContext context) {
         response.setCharacterEncoding("UTF-8");
-        HttpSession session = request.getSession();
 
-        Utente utente = (Utente) session.getAttribute("user");
+        Utente utente = (Utente) request.getSession().getAttribute("user");
         ProdottoDAO prodottoDAO = new ProdottoDAO(connection);
         List<Prodotto> products;
         try {
@@ -85,5 +89,4 @@ public class HomepageUtente extends ThymeLeafServlet {
         context.setVariable("name", utente.getNome());
         context.setVariable("products", products);
     }
-
 }
