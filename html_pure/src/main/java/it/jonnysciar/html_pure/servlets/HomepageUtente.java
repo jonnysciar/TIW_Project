@@ -1,8 +1,10 @@
 package it.jonnysciar.html_pure.servlets;
 
 import it.jonnysciar.html_pure.beans.Opzione;
+import it.jonnysciar.html_pure.beans.Preventivo;
 import it.jonnysciar.html_pure.beans.Prodotto;
 import it.jonnysciar.html_pure.beans.Utente;
+import it.jonnysciar.html_pure.dao.PreventivoDAO;
 import it.jonnysciar.html_pure.dao.ProdottoDAO;
 import org.thymeleaf.context.WebContext;
 
@@ -79,13 +81,16 @@ public class HomepageUtente extends ThymeLeafServlet {
 
         Utente utente = (Utente) request.getSession().getAttribute("user");
         ProdottoDAO prodottoDAO = new ProdottoDAO(connection);
+        PreventivoDAO preventivoDAO = new PreventivoDAO(connection);
         List<Prodotto> products;
+        List<Preventivo> preventivi;
         try {
             products = prodottoDAO.getAll();
+            preventivi = preventivoDAO.getAllByUserId(utente.getId());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
+        context.setVariable("preventivi", preventivi);
         context.setVariable("name", utente.getNome());
         context.setVariable("products", products);
     }

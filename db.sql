@@ -36,7 +36,7 @@ CREATE TABLE `opzioni` (
   `tipo` enum('in offerta','normale') NOT NULL,
   PRIMARY KEY (`codice`),
   UNIQUE KEY `nome_UNIQUE` (`nome`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,7 +47,8 @@ LOCK TABLES `opzioni` WRITE;
 /*!40000 ALTER TABLE `opzioni` DISABLE KEYS */;
 INSERT INTO `opzioni` VALUES
 (1,'colore','in offerta'),
-(2,'scritta','normale');
+(2,'scritta','normale'),
+(3,'logo','normale');
 /*!40000 ALTER TABLE `opzioni` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -71,7 +72,7 @@ CREATE TABLE `preventivi` (
   CONSTRAINT `fk_preventivi_1` FOREIGN KEY (`codice_prodotto`) REFERENCES `prodotti` (`codice`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_preventivi_2` FOREIGN KEY (`id_utente`) REFERENCES `utenti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_preventivi_3` FOREIGN KEY (`id_impiegato`) REFERENCES `utenti` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -80,6 +81,17 @@ CREATE TABLE `preventivi` (
 
 LOCK TABLES `preventivi` WRITE;
 /*!40000 ALTER TABLE `preventivi` DISABLE KEYS */;
+INSERT INTO `preventivi` VALUES
+(1,1,19,NULL,NULL),
+(2,5,19,NULL,NULL),
+(3,3,9,NULL,NULL),
+(4,3,19,NULL,NULL),
+(5,5,9,NULL,NULL),
+(6,1,9,NULL,NULL),
+(7,1,11,NULL,NULL),
+(8,3,11,NULL,NULL),
+(9,5,9,NULL,NULL),
+(10,1,19,10,15);
 /*!40000 ALTER TABLE `preventivi` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -106,6 +118,19 @@ CREATE TABLE `preventivi_opzioni` (
 
 LOCK TABLES `preventivi_opzioni` WRITE;
 /*!40000 ALTER TABLE `preventivi_opzioni` DISABLE KEYS */;
+INSERT INTO `preventivi_opzioni` VALUES
+(1,1),
+(1,3),
+(2,3),
+(3,1),
+(3,2),
+(4,2),
+(5,3),
+(6,2),
+(7,3),
+(8,1),
+(9,3),
+(10,2);
 /*!40000 ALTER TABLE `preventivi_opzioni` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -163,6 +188,13 @@ CREATE TABLE `prodotti_opzioni` (
 
 LOCK TABLES `prodotti_opzioni` WRITE;
 /*!40000 ALTER TABLE `prodotti_opzioni` DISABLE KEYS */;
+INSERT INTO `prodotti_opzioni` VALUES
+(1,1),
+(1,2),
+(1,3),
+(3,1),
+(3,2),
+(5,3);
 /*!40000 ALTER TABLE `prodotti_opzioni` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -184,7 +216,7 @@ CREATE TABLE `utenti` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `username_UNIQUE` (`username`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -197,7 +229,8 @@ INSERT INTO `utenti` VALUES
 (8,'mario','passmario','Mario','Rossi','mario.rossi@tiw.it',1),
 (9,'marco','passmarco','Marco','Bianchi','marco.bianchi@tiw.it',0),
 (10,'jonathan','passjonathan','Jonathan','Sciarrabba','jonathan.sciarrabba@tiw.it',1),
-(11,'paolo','passpaolo','Paolo','Verdi','paolo.verdi@tiw.it',0);
+(11,'paolo','passpaolo','Paolo','Verdi','paolo.verdi@tiw.it',0),
+(19,'fabio','passfabio','Fabio','Rossi','fabio.rossi@tiw.it',0);
 /*!40000 ALTER TABLE `utenti` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -210,4 +243,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-08-04 10:07:48
+-- Dump completed on 2022-08-06 15:55:01

@@ -34,39 +34,68 @@
       </div>
     </div>
     <div class="row">
-      <div class="col d-flex justify-content-start">
-        <form action="#" th:action="@{${buttonAction}}" method="POST">
-          <div class="row mb-3 mt-3">
-            <h3 style="text-align: center">Richiedi il tuo preventivo!</h3>
+      <div class="container">
+        <div class="row">
+          <div class="col d-flex justify-content-start">
+            <form action="#" th:action="@{${buttonAction}}" method="POST">
+              <div class="row mb-3 mt-3">
+                <h3 style="text-align: center">Richiedi il tuo preventivo!</h3>
+              </div>
+              <div class="row mb-3 d-flex align-items-center justify-content-center">
+                <select class="form-control" name="dropProduct" th:if="${!selected}">
+                  <option th:disabled="disabled" selected="true" value="">Scegli un prodotto</option>
+                  <option th:each="product : ${products}" th:value="${product.id}" th:text="${product.nome}"></option>
+                </select>
+                <input type="hidden" th:value="${productName}" th:text="${productName}" style="text-align: center" th:if="${selected}" name="productName">
+              </div>
+              <div class="row mb-3 d-flex align-items-center justify-content-center" th:if="${selected}">
+                <table class="table">
+                  <tbody>
+                    <tr th:each="option : ${options}">
+                      <td th:text="${option.nome}">opzione1</td>
+                      <td><input type="checkbox" th:value="${option.codice}" name="checkbox"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="row mb-3 d-flex align-items-center justify-content-center">
+                <p th:text="${errorMsg}" style="text-align: center; color: red"></p>
+              </div>
+              <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-warning">Richiedi preventivo</button>
+              </div>
+            </form>
           </div>
-          <div class="row mb-3 d-flex align-items-center justify-content-center">
-            <select class="form-control" name="dropProduct" th:if="${!selected}">
-              <option th:disabled="disabled" selected="true" value="">Scegli un prodotto</option>
-              <option th:each="product : ${products}" th:value="${product.id}" th:text="${product.nome}"></option>
-            </select>
-            <input type="hidden" th:value="${productName}" th:text="${productName}" style="text-align: center" th:if="${selected}" name="productName">
+          <div class="col d-flex justify-content-center">
           </div>
-          <div class="row mb-3 d-flex align-items-center justify-content-center" th:if="${selected}">
-            <table class="table">
-              <tbody>
-                <tr th:each="option : ${options}">
-                  <td th:text="${option.nome}">opzione1</td>
-                  <td><input type="checkbox" th:value="${option.codice}" name="checkbox"></td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="col d-flex justify-content-end">
+            <div class="container">
+              <div class="row mb-3 mt-3 justify-content-end">
+                <h3 style="text-align: center">Visualizza i dettagli dei preventivi richiesti</h3>
+              </div>
+              <div class="row mb-3 d-flex justify-content-end">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Prodotto</th>
+                      <th>Stato</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr th:each="preventivo : ${preventivi}">
+                      <td th:text="${preventivo.id}">0</td>
+                      <td th:text="${preventivo.nomeProdotto}">Nome Prodotto</td>
+                      <td th:if="${preventivo.prezzo <= 0}" style="color: red">Da completare</td>
+                      <td th:if="${preventivo.prezzo > 0}" style="color: green">Completato</td>
+                      <td><a href="homepageUtente.html" th:href="@{/dettagliPreventivo(preventivo=${preventivo.id})}">Dettagli</a></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
-          <div class="row mb-3 d-flex align-items-center justify-content-center">
-            <p th:text="${errorMsg}" style="text-align: center; color: red"></p>
-          </div>
-          <div class="d-flex justify-content-center">
-            <button type="submit" class="btn btn-warning">Richiedi preventivo</button>
-          </div>
-        </form>
-      </div>
-
-      <div class="col d-flex justify-content-end">
-
+        </div>
       </div>
     </div>
   </div>
