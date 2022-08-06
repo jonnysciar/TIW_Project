@@ -35,7 +35,9 @@ public class ControlloRegistrazione extends ThymeLeafServlet {
         String password2 = StringEscapeUtils.escapeJava(request.getParameter("password2"));
         String checkbox = StringEscapeUtils.escapeJava(request.getParameter("checkbox"));
 
-        if (nome == null || cognome == null || email == null || username == null || password == null || password2 == null) {
+        if (nome == null || cognome == null || email == null || username == null || password == null || password2 == null ||
+            nome.isEmpty() || cognome.isEmpty() || email.isEmpty() || username.isEmpty() || password.isEmpty() || password2.isEmpty()) {
+
             ctx.setVariable("errorMsg", "Alcuni campi non risultano compilati correttamente");
             String path = "/WEB-INF/templates/registrazione.html";
             templateEngine.process(path, ctx, response.getWriter());

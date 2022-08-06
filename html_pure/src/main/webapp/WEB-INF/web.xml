@@ -41,12 +41,15 @@
         <url-pattern>/homepageImpiegato</url-pattern>
         <url-pattern>/logout</url-pattern>
         <url-pattern>/</url-pattern>
+        <url-pattern>/CheckPreventivo</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>FiltroNotLogged</filter-name>
         <url-pattern>/login</url-pattern>
         <url-pattern>/registrazione</url-pattern>
         <url-pattern>/</url-pattern>
+        <url-pattern>/CheckSignUp</url-pattern>
+        <url-pattern>/CheckLogin</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>FiltroImpiegato</filter-name>
