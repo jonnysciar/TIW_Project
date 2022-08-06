@@ -1,5 +1,6 @@
 package it.jonnysciar.html_pure.dao;
 
+import it.jonnysciar.html_pure.beans.Prodotto;
 import it.jonnysciar.html_pure.beans.Utente;
 
 import java.sql.Connection;
@@ -41,6 +42,20 @@ public class UtenteDAO extends DAO{
             pstatement.setString(5, utente.getEmail());
             pstatement.setBoolean(6, utente.isImpiegato());
             return pstatement.executeUpdate() != 0;
+        }
+    }
+
+    public Utente getById(int id) throws SQLException {
+        String query = "SELECT id, username, nome, cognome, email, impiegato FROM utenti WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, id);
+            try (ResultSet result = statement.executeQuery()) {
+                if (result.isBeforeFirst()) {
+                    result.next();
+                    return new Utente(result.getInt(1), result.getString(2), result.getString(3),
+                            result.getString(4), result.getString(5), result.getBoolean(6));
+                } else return null;
+            }
         }
     }
 

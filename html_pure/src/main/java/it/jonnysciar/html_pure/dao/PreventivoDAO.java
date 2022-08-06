@@ -75,4 +75,32 @@ public class PreventivoDAO extends DAO{
             }
         }
     }
+
+    public Preventivo getById(int id) throws SQLException {
+        String query = "SELECT id, codice_prodotto, id_utente, id_impiegato, prezzo FROM preventivi WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, id);
+            try (ResultSet result = statement.executeQuery()) {
+                if (result.isBeforeFirst()) {
+                    result.next();
+                    return new Preventivo(result.getInt(1), result.getInt(2), result.getInt(3), result.getInt(4), result.getInt(5));
+                } else return null;
+            }
+        }
+    }
+
+    public List<Opzione> getAllOpzioniById(int id) throws SQLException {
+        String query = "SELECT o.codice, o.nome, o.tipo FROM preventivi AS p, preventivi_opzioni AS po, opzioni AS o " +
+                "WHERE p.id = ? AND po.id_preventivo = p.id AND po.codice_opzione = o.codice";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, id);
+            try (ResultSet result = statement.executeQuery()) {
+                List<Opzione> options = new ArrayList<>();
+                while (result.next()) {
+                    options.add(new Opzione(result.getInt(1), result.getString(2), TipoOpzione.getTipoOpzione(result.getString(3))));
+                }
+                return new ArrayList<>(options);
+            }
+        }
+    }
 }

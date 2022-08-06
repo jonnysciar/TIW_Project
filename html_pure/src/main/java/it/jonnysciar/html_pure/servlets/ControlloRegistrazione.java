@@ -24,8 +24,8 @@ public class ControlloRegistrazione extends ThymeLeafServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setCharacterEncoding("UTF-8");
-        ServletContext servletContext = getServletContext();
-        final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+        final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
+        String path = "/WEB-INF/templates/registrazione.html";
 
         String nome = StringEscapeUtils.escapeJava(request.getParameter("nome"));
         String cognome = StringEscapeUtils.escapeJava(request.getParameter("cognome"));
@@ -39,28 +39,24 @@ public class ControlloRegistrazione extends ThymeLeafServlet {
             nome.isEmpty() || cognome.isEmpty() || email.isEmpty() || username.isEmpty() || password.isEmpty() || password2.isEmpty()) {
 
             ctx.setVariable("errorMsg", "Alcuni campi non risultano compilati correttamente");
-            String path = "/WEB-INF/templates/registrazione.html";
             templateEngine.process(path, ctx, response.getWriter());
         } else if (!password.equals(password2)) {
             ctx.setVariable("errorMsg", "Le password inserite non coincidono");
-            String path = "/WEB-INF/templates/registrazione.html";
             templateEngine.process(path, ctx, response.getWriter());
         } else if (!EmailValidator.getInstance().isValid(email)) {
             ctx.setVariable("errorMsg", "email non valida");
-            String path = "/WEB-INF/templates/registrazione.html";
             templateEngine.process(path, ctx, response.getWriter());
         } else {
             Utente utente = new Utente(username, nome, cognome, email, checkbox != null);
             try {
                 if (new UtenteDAO(connection).addUtente(utente, password)) {
-                    String path = "/WEB-INF/templates/reg_successo.html";
+                    path = "/WEB-INF/templates/reg_successo.html";
                     templateEngine.process(path, ctx, response.getWriter());
                 } else throw new SQLException();
             } catch (SQLException e) {
                 String errorColumn = "username";
                 if (e.getMessage().contains("email")) errorColumn = "email";
                 ctx.setVariable("errorMsg",  errorColumn + " già in uso");
-                String path = "/WEB-INF/templates/registrazione.html";
                 templateEngine.process(path, ctx, response.getWriter());
             }
         }

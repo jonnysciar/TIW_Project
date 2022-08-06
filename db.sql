@@ -72,7 +72,7 @@ CREATE TABLE `preventivi` (
   CONSTRAINT `fk_preventivi_1` FOREIGN KEY (`codice_prodotto`) REFERENCES `prodotti` (`codice`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_preventivi_2` FOREIGN KEY (`id_utente`) REFERENCES `utenti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_preventivi_3` FOREIGN KEY (`id_impiegato`) REFERENCES `utenti` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -88,9 +88,6 @@ INSERT INTO `preventivi` VALUES
 (4,3,19,NULL,NULL),
 (5,5,9,NULL,NULL),
 (6,1,9,NULL,NULL),
-(7,1,11,NULL,NULL),
-(8,3,11,NULL,NULL),
-(9,5,9,NULL,NULL),
 (10,1,19,10,15);
 /*!40000 ALTER TABLE `preventivi` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -127,9 +124,6 @@ INSERT INTO `preventivi_opzioni` VALUES
 (4,2),
 (5,3),
 (6,2),
-(7,3),
-(8,1),
-(9,3),
 (10,2);
 /*!40000 ALTER TABLE `preventivi_opzioni` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -216,7 +210,7 @@ CREATE TABLE `utenti` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `username_UNIQUE` (`username`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -243,4 +237,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-08-06 15:55:01
+-- Dump completed on 2022-08-06 18:45:13

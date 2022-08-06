@@ -42,6 +42,7 @@
         <url-pattern>/logout</url-pattern>
         <url-pattern>/</url-pattern>
         <url-pattern>/CheckPreventivo</url-pattern>
+        <url-pattern>/dettagliPreventivo</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>FiltroNotLogged</filter-name>
@@ -59,5 +60,6 @@
         <filter-name>FiltroUtente</filter-name>
         <url-pattern>/homepageUtente</url-pattern>
         <url-pattern>/CheckPreventivo</url-pattern>
+        <url-pattern>/dettagliPreventivo</url-pattern>
     </filter-mapping>
 </web-app>
