@@ -36,7 +36,7 @@ CREATE TABLE `opzioni` (
   `tipo` enum('in offerta','normale') NOT NULL,
   PRIMARY KEY (`codice`),
   UNIQUE KEY `nome_UNIQUE` (`nome`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -48,7 +48,10 @@ LOCK TABLES `opzioni` WRITE;
 INSERT INTO `opzioni` VALUES
 (1,'colore','in offerta'),
 (2,'scritta','normale'),
-(3,'logo','normale');
+(3,'logo','normale'),
+(4,'cappuccio','in offerta'),
+(5,'lungo','normale'),
+(6,'corto','in offerta');
 /*!40000 ALTER TABLE `opzioni` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -82,13 +85,7 @@ CREATE TABLE `preventivi` (
 LOCK TABLES `preventivi` WRITE;
 /*!40000 ALTER TABLE `preventivi` DISABLE KEYS */;
 INSERT INTO `preventivi` VALUES
-(1,1,19,NULL,NULL),
-(2,5,19,NULL,NULL),
-(3,3,9,NULL,NULL),
-(4,3,19,NULL,NULL),
-(5,5,9,NULL,NULL),
-(6,1,9,NULL,NULL),
-(10,1,19,10,15);
+(1,5,11,NULL,NULL);
 /*!40000 ALTER TABLE `preventivi` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -116,15 +113,8 @@ CREATE TABLE `preventivi_opzioni` (
 LOCK TABLES `preventivi_opzioni` WRITE;
 /*!40000 ALTER TABLE `preventivi_opzioni` DISABLE KEYS */;
 INSERT INTO `preventivi_opzioni` VALUES
-(1,1),
 (1,3),
-(2,3),
-(3,1),
-(3,2),
-(4,2),
-(5,3),
-(6,2),
-(10,2);
+(1,6);
 /*!40000 ALTER TABLE `preventivi_opzioni` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -151,11 +141,11 @@ CREATE TABLE `prodotti` (
 LOCK TABLES `prodotti` WRITE;
 /*!40000 ALTER TABLE `prodotti` DISABLE KEYS */;
 INSERT INTO `prodotti` VALUES
-(1,'maglietta','img'),
-(2,'pantaloni','img'),
-(3,'camicia','img'),
-(4,'felpa','img'),
-(5,'jeans','img');
+(1,'maglietta','maglietta.jpg'),
+(2,'pantaloni','pantaloni.jpg'),
+(3,'camicia','camicia.jpg'),
+(4,'felpa','felpa.jpg'),
+(5,'jeans','jeans.jpg');
 /*!40000 ALTER TABLE `prodotti` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -186,9 +176,15 @@ INSERT INTO `prodotti_opzioni` VALUES
 (1,1),
 (1,2),
 (1,3),
+(2,1),
+(2,5),
+(2,6),
 (3,1),
-(3,2),
-(5,3);
+(4,2),
+(4,4),
+(5,3),
+(5,5),
+(5,6);
 /*!40000 ALTER TABLE `prodotti_opzioni` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -237,4 +233,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-08-06 18:45:13
+-- Dump completed on 2022-08-07 11:25:02
