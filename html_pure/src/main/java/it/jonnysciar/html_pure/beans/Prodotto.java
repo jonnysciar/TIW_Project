@@ -1,9 +1,9 @@
 package it.jonnysciar.html_pure.beans;
 
 public class Prodotto {
-    private int id;
-    private String nome;
-    private String imgPath;
+    private final int id;
+    private final String nome;
+    private final String imgPath;
 
     public Prodotto(int id, String nome, String imgPath) {
         this.id = id;

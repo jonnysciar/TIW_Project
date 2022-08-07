@@ -51,7 +51,6 @@ public class DettagliPreventivo extends ThymeLeafServlet {
         ctx.setVariable("opzioni", opzioni);
         ctx.setVariable("preventivo", preventivo);
         ctx.setVariable("prodotto", prodotto);
-        ctx.setVariable("image", "placeholder.jpg");
         templateEngine.process(path, ctx, response.getWriter());
     }
 }

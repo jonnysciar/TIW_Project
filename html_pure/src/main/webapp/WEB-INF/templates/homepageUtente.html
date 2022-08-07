@@ -53,6 +53,7 @@
                   <tbody>
                     <tr th:each="option : ${options}">
                       <td th:text="${option.nome}">opzione1</td>
+                      <td th:text="${option.tipo}">normale</td>
                       <td><input type="checkbox" th:value="${option.codice}" name="checkbox"></td>
                     </tr>
                   </tbody>

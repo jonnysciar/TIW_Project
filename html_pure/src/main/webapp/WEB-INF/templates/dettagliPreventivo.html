@@ -58,7 +58,7 @@
               </thead>
               <tbody>
               <tr>
-                <td><img src="../../images/placeholder.jpg" style="width: 200px" class="rounded mx-auto d-block" th:src="@{/images/{img}(img=${image})}"></td>
+                <td><img src="../../images/placeholder.jpg" style="width: 200px" class="rounded mx-auto d-block" th:src="@{/images/{img}(img=${prodotto.imgPath})}"></td>
               </tr>
               </tbody>
             </table>
@@ -67,12 +67,14 @@
             <table class="table text-center">
               <thead>
               <tr>
-                <th>Opzioni Scelte</th>
+                <th>Opzione</th>
+                <th>Tipo</th>
               </tr>
               </thead>
               <tbody>
               <tr th:each="opzione : ${opzioni}">
                 <td th:text="${opzione.nome}">Opzione 1</td>
+                <td th:text="${opzione.tipo}">in offerta</td>
               </tr>
               </tbody>
             </table>
