@@ -6,7 +6,6 @@ import it.jonnysciar.html_pure.beans.Prodotto;
 import it.jonnysciar.html_pure.beans.Utente;
 import it.jonnysciar.html_pure.dao.PreventivoDAO;
 import it.jonnysciar.html_pure.dao.ProdottoDAO;
-import org.apache.commons.text.StringEscapeUtils;
 import org.thymeleaf.context.WebContext;
 
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.stream.Stream;
 
 @WebServlet("/CheckPrice")
 public class ControlloPrezzo extends ThymeLeafServlet {
