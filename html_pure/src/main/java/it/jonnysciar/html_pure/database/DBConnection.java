@@ -9,22 +9,19 @@ import java.sql.SQLException;
 
 public class DBConnection {
 
-    private static Connection connection = null;
-
     public static Connection getConnection(ServletContext context) throws ServletException {
-        if (connection == null) {
-            try {
-                String driver = context.getInitParameter("dbDriver");
-                String url = context.getInitParameter("dbUrl");
-                String user = context.getInitParameter("dbUser");
-                String password = context.getInitParameter("dbPassword");
-                Class.forName(driver);
-                connection = DriverManager.getConnection(url, user, password);
-            } catch (ClassNotFoundException e) {
-                throw new UnavailableException("Can't load database driver");
-            } catch (SQLException e) {
-                throw new UnavailableException("Couldn't get db connection");
-            }
+        Connection connection;
+        try {
+            String driver = context.getInitParameter("dbDriver");
+            String url = context.getInitParameter("dbUrl");
+            String user = context.getInitParameter("dbUser");
+            String password = context.getInitParameter("dbPassword");
+            Class.forName(driver);
+            connection = DriverManager.getConnection(url, user, password);
+        } catch (ClassNotFoundException e) {
+            throw new UnavailableException("Can't load database driver");
+        } catch (SQLException e) {
+            throw new UnavailableException("Couldn't get db connection");
         }
         return connection;
     }

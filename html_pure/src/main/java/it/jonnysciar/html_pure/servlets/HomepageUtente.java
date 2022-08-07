@@ -28,26 +28,14 @@ public class HomepageUtente extends ThymeLeafServlet {
         final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
         setupPage(request, response, ctx);
 
-        ctx.setVariable("selected", false);
-        ctx.setVariable("buttonAction", "/homepageUtente");
-
-        String path = "/WEB-INF/templates/homepageUtente.html";
-        templateEngine.process(path, ctx, response.getWriter());
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
-        setupPage(request, response, ctx);
-
         ProdottoDAO prodottoDAO = new ProdottoDAO(connection);
 
         Prodotto prodotto;
         try {
-            prodotto = prodottoDAO.getByCodice(Integer.parseInt(request.getParameter("dropProduct")));
+            prodotto = prodottoDAO.getByCodice(Integer.parseInt(request.getParameter("productId")));
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "DB Error!");
+            return;
         } catch (NumberFormatException e) {
             prodotto = null;
         }
@@ -58,7 +46,8 @@ public class HomepageUtente extends ThymeLeafServlet {
             try {
                 options = prodottoDAO.getAllOpzioniById(prodotto.getId());
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "DB Error!");
+                return;
             }
             if (options != null) {
                 ctx.setVariable("options", options);
@@ -66,9 +55,13 @@ public class HomepageUtente extends ThymeLeafServlet {
             ctx.setVariable("selected", true);
             ctx.setVariable("productName", prodotto.getNome());
             ctx.setVariable("buttonAction", "/CheckPreventivo");
-        } else {
+            ctx.setVariable("method", "POST");
+        } else if (request.getParameter("productId") != null) {
             ctx.setVariable("selected", false);
             ctx.setVariable("errorMsg", "Il prodotto selezionato non esiste");
+            ctx.setVariable("buttonAction", "/homepageUtente");
+        } else {
+            ctx.setVariable("selected", false);
             ctx.setVariable("buttonAction", "/homepageUtente");
         }
 
@@ -76,7 +69,7 @@ public class HomepageUtente extends ThymeLeafServlet {
         templateEngine.process(path, ctx, response.getWriter());
     }
 
-    private void setupPage(HttpServletRequest request, HttpServletResponse response, WebContext context) {
+    private void setupPage(HttpServletRequest request, HttpServletResponse response, WebContext context) throws IOException {
         response.setCharacterEncoding("UTF-8");
 
         Utente utente = (Utente) request.getSession().getAttribute("user");
@@ -88,7 +81,8 @@ public class HomepageUtente extends ThymeLeafServlet {
             products = prodottoDAO.getAll();
             preventivi = preventivoDAO.getAllByUserId(utente.getId());
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "DB Error!");
+            return;
         }
         context.setVariable("preventivi", preventivi);
         context.setVariable("name", utente.getNome());

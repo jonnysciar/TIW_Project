@@ -32,7 +32,8 @@ public class HomepageImpiegato extends ThymeLeafServlet {
             prezzati = preventivoDAO.getAllByImpiegatoId(utente.getId());
             daPrezzare = preventivoDAO.getAllPreventiviNotManaged();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "DB Error!");
+            return;
         }
         ctx.setVariable("prezzati", prezzati);
         ctx.setVariable("daPrezzare", daPrezzare);

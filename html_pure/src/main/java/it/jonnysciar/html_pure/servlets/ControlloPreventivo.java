@@ -32,7 +32,8 @@ public class ControlloPreventivo extends ThymeLeafServlet {
         try {
             prodotto = prodottoDAO.getByNome(StringEscapeUtils.escapeJava(request.getParameter("productName")));
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "DB Error!");
+            return;
         }
 
         if (optionsArray == null) {
@@ -51,14 +52,17 @@ public class ControlloPreventivo extends ThymeLeafServlet {
                 new PreventivoDAO(connection).addPreventivo(preventivo);
                 response.sendRedirect(getServletContext().getContextPath() + "/homepageUtente");
             } catch (SQLException | NumberFormatException e) {
-                setupPageError(ctx, utente, prodottoDAO, "Errore nella richista di preventivo!");
-                path = "/WEB-INF/templates/homepageUtente.html";
-                templateEngine.process(path, ctx, response.getWriter());
+                if (setupPageError(ctx, utente, prodottoDAO, "Errore nella richista di preventivo!")) {
+                    path = "/WEB-INF/templates/homepageUtente.html";
+                    templateEngine.process(path, ctx, response.getWriter());
+                } else {
+                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "DB Error!");
+                }
             }
         }
     }
 
-    private void setupPageError(WebContext context, Utente utente, ProdottoDAO prodottoDAO, String errorMsg) {
+    private boolean setupPageError(WebContext context, Utente utente, ProdottoDAO prodottoDAO, String errorMsg) {
 
         PreventivoDAO preventivoDAO = new PreventivoDAO(connection);
         List<Preventivo> preventivi;
@@ -67,7 +71,7 @@ public class ControlloPreventivo extends ThymeLeafServlet {
             products = prodottoDAO.getAll();
             preventivi = preventivoDAO.getAllByUserId(utente.getId());
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            return false;
         }
         context.setVariable("preventivi", preventivi);
         context.setVariable("products", products);
@@ -75,5 +79,6 @@ public class ControlloPreventivo extends ThymeLeafServlet {
         context.setVariable("name", utente.getNome());
         context.setVariable("errorMsg", errorMsg);
         context.setVariable("buttonAction", "/homepageUtente");
+        return true;
     }
 }

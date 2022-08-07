@@ -37,12 +37,12 @@
       <div class="container">
         <div class="row">
           <div class="col d-flex justify-content-start">
-            <form action="#" th:action="@{${buttonAction}}" method="POST">
+            <form action="#" th:action="@{${buttonAction}}" method="GET" th:method="${method}">
               <div class="row mb-3 mt-3">
                 <h4 style="text-align: center">Richiedi il tuo preventivo!</h4>
               </div>
               <div class="row mb-3 d-flex align-items-center justify-content-center">
-                <select class="form-control" name="dropProduct" th:if="${!selected}">
+                <select class="form-control" name="productId" th:if="${!selected}">
                   <option th:disabled="disabled" selected="true" value="">Scegli un prodotto</option>
                   <option th:each="product : ${products}" th:value="${product.id}" th:text="${product.nome}"></option>
                 </select>
