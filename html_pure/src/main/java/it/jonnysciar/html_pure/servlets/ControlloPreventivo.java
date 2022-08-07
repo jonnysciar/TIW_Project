@@ -38,11 +38,9 @@ public class ControlloPreventivo extends ThymeLeafServlet {
 
         if (optionsArray == null) {
             setupPageError(ctx, utente, prodottoDAO, "Nessuna opzione è stata scelta");
-            path = "/WEB-INF/templates/homepageUtente.html";
             templateEngine.process(path, ctx, response.getWriter());
         } else if (prodotto == null) {
             setupPageError(ctx, utente, prodottoDAO, "Il prodotto selezionato non esiste");
-            path = "/WEB-INF/templates/homepageUtente.html";
             templateEngine.process(path, ctx, response.getWriter());
         } else {
 
@@ -53,7 +51,6 @@ public class ControlloPreventivo extends ThymeLeafServlet {
                 response.sendRedirect(getServletContext().getContextPath() + "/homepageUtente");
             } catch (SQLException | NumberFormatException e) {
                 if (setupPageError(ctx, utente, prodottoDAO, "Errore nella richista di preventivo!")) {
-                    path = "/WEB-INF/templates/homepageUtente.html";
                     templateEngine.process(path, ctx, response.getWriter());
                 } else {
                     response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "DB Error!");

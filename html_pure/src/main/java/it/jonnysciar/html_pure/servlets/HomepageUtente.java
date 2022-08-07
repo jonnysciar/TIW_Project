@@ -27,9 +27,9 @@ public class HomepageUtente extends ThymeLeafServlet {
 
         final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
         setupPage(request, response, ctx);
+        ctx.setVariable("method", "GET");
 
         ProdottoDAO prodottoDAO = new ProdottoDAO(connection);
-
         Prodotto prodotto;
         try {
             prodotto = prodottoDAO.getByCodice(Integer.parseInt(request.getParameter("productId")));
