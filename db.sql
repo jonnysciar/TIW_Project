@@ -50,7 +50,6 @@ INSERT INTO `opzioni` VALUES
 (2,'scritta','normale'),
 (3,'logo','normale'),
 (4,'cappuccio','in offerta'),
-(5,'lungo','normale'),
 (6,'corto','in offerta');
 /*!40000 ALTER TABLE `opzioni` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -85,7 +84,9 @@ CREATE TABLE `preventivi` (
 LOCK TABLES `preventivi` WRITE;
 /*!40000 ALTER TABLE `preventivi` DISABLE KEYS */;
 INSERT INTO `preventivi` VALUES
-(1,5,11,NULL,NULL);
+(1,5,11,10,50),
+(2,4,9,NULL,NULL),
+(3,2,19,NULL,NULL);
 /*!40000 ALTER TABLE `preventivi` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -114,7 +115,10 @@ LOCK TABLES `preventivi_opzioni` WRITE;
 /*!40000 ALTER TABLE `preventivi_opzioni` DISABLE KEYS */;
 INSERT INTO `preventivi_opzioni` VALUES
 (1,3),
-(1,6);
+(1,6),
+(2,2),
+(2,4),
+(3,6);
 /*!40000 ALTER TABLE `preventivi_opzioni` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -177,13 +181,11 @@ INSERT INTO `prodotti_opzioni` VALUES
 (1,2),
 (1,3),
 (2,1),
-(2,5),
 (2,6),
 (3,1),
 (4,2),
 (4,4),
 (5,3),
-(5,5),
 (5,6);
 /*!40000 ALTER TABLE `prodotti_opzioni` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -233,4 +235,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-08-07 11:25:02
+-- Dump completed on 2022-08-07 18:23:58
