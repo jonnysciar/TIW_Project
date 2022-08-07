@@ -81,6 +81,7 @@
                       <th>Id</th>
                       <th>Prodotto</th>
                       <th>Stato</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -88,7 +89,10 @@
                       <td th:text="${preventivo.id}">0</td>
                       <td th:text="${preventivo.nomeProdotto}">Nome Prodotto</td>
                       <td th:if="${preventivo.prezzo <= 0}" style="color: red">Da completare</td>
-                      <td th:if="${preventivo.prezzo > 0}" style="color: green">Completato</td>
+                      <td th:if="${preventivo.prezzo > 0}">
+                        <p style="color: green">Completato</p>
+                        <p th:text="'Prezzo: ' + ${preventivo.prezzo}">prezzo: 1234</p>
+                      </td>
                       <td><a href="homepageUtente.html" th:href="@{/dettagliPreventivo(id=${preventivo.id})}">Dettagli</a></td>
                     </tr>
                   </tbody>

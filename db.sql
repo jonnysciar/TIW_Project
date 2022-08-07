@@ -86,7 +86,9 @@ LOCK TABLES `preventivi` WRITE;
 INSERT INTO `preventivi` VALUES
 (1,5,11,10,50),
 (2,4,9,NULL,NULL),
-(3,2,19,8,15);
+(3,2,19,8,15),
+(4,4,11,8,60),
+(5,3,11,NULL,NULL);
 /*!40000 ALTER TABLE `preventivi` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -118,7 +120,10 @@ INSERT INTO `preventivi_opzioni` VALUES
 (1,6),
 (2,2),
 (2,4),
-(3,6);
+(3,6),
+(4,2),
+(4,4),
+(5,1);
 /*!40000 ALTER TABLE `preventivi_opzioni` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -235,4 +240,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-08-07 18:31:16
+-- Dump completed on 2022-08-07 18:49:06
