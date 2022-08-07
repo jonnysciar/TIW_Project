@@ -2,10 +2,12 @@ package it.jonnysciar.html_pure.dao;
 
 import it.jonnysciar.html_pure.beans.Opzione;
 import it.jonnysciar.html_pure.beans.Preventivo;
-import it.jonnysciar.html_pure.beans.Prodotto;
 import it.jonnysciar.html_pure.enums.TipoOpzione;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,6 +78,39 @@ public class PreventivoDAO extends DAO{
         }
     }
 
+    public List<Preventivo> getAllByImpiegatoId(int id_impiegato) throws SQLException {
+        ProdottoDAO prodottoDAO = new ProdottoDAO(connection);
+        String query = "SELECT id, codice_prodotto, id_utente, id_impiegato, prezzo FROM preventivi WHERE id_impiegato = ? AND prezzo > 0";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, id_impiegato);
+            try (ResultSet result = statement.executeQuery()) {
+                List<Preventivo> preventivi = new ArrayList<>();
+                while (result.next()) {
+                    Preventivo p = new Preventivo(result.getInt(1), result.getInt(2), result.getInt(3), result.getInt(4), result.getInt(5));
+                    p.setNomeProdotto(prodottoDAO.getByCodice(p.getCodice_prodotto()).getNome());
+                    preventivi.add(p);
+                }
+                return new ArrayList<>(preventivi);
+            }
+        }
+    }
+
+    public List<Preventivo> getAllPreventiviNotManaged() throws SQLException {
+        ProdottoDAO prodottoDAO = new ProdottoDAO(connection);
+        String query = "SELECT id, codice_prodotto, id_utente, id_impiegato, prezzo FROM preventivi WHERE isnull(prezzo) AND isnull(id_impiegato)";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            try (ResultSet result = statement.executeQuery()) {
+                List<Preventivo> preventivi = new ArrayList<>();
+                while (result.next()) {
+                    Preventivo p = new Preventivo(result.getInt(1), result.getInt(2), result.getInt(3), result.getInt(4), result.getInt(5));
+                    p.setNomeProdotto(prodottoDAO.getByCodice(p.getCodice_prodotto()).getNome());
+                    preventivi.add(p);
+                }
+                return new ArrayList<>(preventivi);
+            }
+        }
+    }
+
     public Preventivo getById(int id) throws SQLException {
         String query = "SELECT id, codice_prodotto, id_utente, id_impiegato, prezzo FROM preventivi WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -101,6 +136,16 @@ public class PreventivoDAO extends DAO{
                 }
                 return new ArrayList<>(options);
             }
+        }
+    }
+
+    public void updatePreventivoById(int id, int id_impiegato, int prezzo) throws SQLException {
+        String query = "UPDATE preventivi SET id_impiegato = ?, prezzo = ? WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, id_impiegato);
+            statement.setInt(2, prezzo);
+            statement.setInt(3, id);
+            statement.executeUpdate();
         }
     }
 }

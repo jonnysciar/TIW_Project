@@ -1,6 +1,5 @@
 package it.jonnysciar.html_pure.servlets;
 
-import it.jonnysciar.html_pure.beans.Opzione;
 import it.jonnysciar.html_pure.beans.Preventivo;
 import it.jonnysciar.html_pure.beans.Prodotto;
 import it.jonnysciar.html_pure.beans.Utente;
@@ -14,8 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -25,6 +22,7 @@ public class ControlloPreventivo extends ThymeLeafServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setCharacterEncoding("UTF-8");
+        String path = "/WEB-INF/templates/homepageUtente.html";
         final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
 
         ProdottoDAO prodottoDAO = new ProdottoDAO(connection);
@@ -39,11 +37,11 @@ public class ControlloPreventivo extends ThymeLeafServlet {
 
         if (optionsArray == null) {
             setupPageError(ctx, utente, prodottoDAO, "Nessuna opzione è stata scelta");
-            String path = "/WEB-INF/templates/homepageUtente.html";
+            path = "/WEB-INF/templates/homepageUtente.html";
             templateEngine.process(path, ctx, response.getWriter());
         } else if (prodotto == null) {
             setupPageError(ctx, utente, prodottoDAO, "Il prodotto selezionato non esiste");
-            String path = "/WEB-INF/templates/homepageUtente.html";
+            path = "/WEB-INF/templates/homepageUtente.html";
             templateEngine.process(path, ctx, response.getWriter());
         } else {
 
@@ -54,7 +52,7 @@ public class ControlloPreventivo extends ThymeLeafServlet {
                 response.sendRedirect(getServletContext().getContextPath() + "/homepageUtente");
             } catch (SQLException | NumberFormatException e) {
                 setupPageError(ctx, utente, prodottoDAO, "Errore nella richista di preventivo!");
-                String path = "/WEB-INF/templates/homepageUtente.html";
+                path = "/WEB-INF/templates/homepageUtente.html";
                 templateEngine.process(path, ctx, response.getWriter());
             }
         }

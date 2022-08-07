@@ -30,7 +30,7 @@
   <div class="container mt-3">
     <div class="row mt-3">
       <div class="col d-flex justify-content-center">
-        <h4 th:text="'Benvenuto ' + ${name} + ', ecco cosa puoi fare:'"></h4>
+        <h3 th:text="'Benvenuto ' + ${name} + ', ecco cosa puoi fare:'">Benvenuto Utente, ecco cosa puoi fare:</h3>
       </div>
     </div>
     <div class="row">
@@ -39,7 +39,7 @@
           <div class="col d-flex justify-content-start">
             <form action="#" th:action="@{${buttonAction}}" method="POST">
               <div class="row mb-3 mt-3">
-                <h3 style="text-align: center">Richiedi il tuo preventivo!</h3>
+                <h4 style="text-align: center">Richiedi il tuo preventivo!</h4>
               </div>
               <div class="row mb-3 d-flex align-items-center justify-content-center">
                 <select class="form-control" name="dropProduct" th:if="${!selected}">
@@ -72,7 +72,7 @@
           <div class="col d-flex justify-content-end">
             <div class="container">
               <div class="row mb-3 mt-3 justify-content-end">
-                <h3 style="text-align: center">Visualizza i dettagli dei preventivi richiesti</h3>
+                <h4 style="text-align: center">Visualizza i dettagli dei preventivi richiesti</h4>
               </div>
               <div class="row mb-3 d-flex justify-content-end">
                 <table class="table">

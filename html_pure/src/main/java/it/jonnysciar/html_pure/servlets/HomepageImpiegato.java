@@ -1,13 +1,17 @@
 package it.jonnysciar.html_pure.servlets;
 
+import it.jonnysciar.html_pure.beans.Preventivo;
+import it.jonnysciar.html_pure.beans.Utente;
+import it.jonnysciar.html_pure.dao.PreventivoDAO;
 import org.thymeleaf.context.WebContext;
 
-import javax.servlet.ServletContext;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.Serial;
+import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet("/homepageImpiegato")
 public class HomepageImpiegato extends ThymeLeafServlet {
@@ -18,17 +22,24 @@ public class HomepageImpiegato extends ThymeLeafServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setCharacterEncoding("UTF-8");
-        ServletContext servletContext = getServletContext();
-        final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+        final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
+
+        Utente utente = (Utente) request.getSession().getAttribute("user");
+        PreventivoDAO preventivoDAO = new PreventivoDAO(connection);
+        List<Preventivo> prezzati;
+        List<Preventivo> daPrezzare;
+        try {
+            prezzati = preventivoDAO.getAllByImpiegatoId(utente.getId());
+            daPrezzare = preventivoDAO.getAllPreventiviNotManaged();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        ctx.setVariable("prezzati", prezzati);
+        ctx.setVariable("daPrezzare", daPrezzare);
+        ctx.setVariable("name", utente.getNome());
 
         String path = "/WEB-INF/templates/homepageImpiegato.html";
-        ctx.setVariable("value", "Homepage Impiegato");
         templateEngine.process(path, ctx, response.getWriter());
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
     }
 
 }

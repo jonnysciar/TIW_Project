@@ -43,6 +43,8 @@
         <url-pattern>/</url-pattern>
         <url-pattern>/CheckPreventivo</url-pattern>
         <url-pattern>/dettagliPreventivo</url-pattern>
+        <url-pattern>/prezzaPreventivo</url-pattern>
+        <url-pattern>/CheckPrice</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>FiltroNotLogged</filter-name>
@@ -55,11 +57,12 @@
     <filter-mapping>
         <filter-name>FiltroImpiegato</filter-name>
         <url-pattern>/homepageImpiegato</url-pattern>
+        <url-pattern>/prezzaPreventivo</url-pattern>
+        <url-pattern>/CheckPrice</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>FiltroUtente</filter-name>
         <url-pattern>/homepageUtente</url-pattern>
         <url-pattern>/CheckPreventivo</url-pattern>
-        <url-pattern>/dettagliPreventivo</url-pattern>
     </filter-mapping>
 </web-app>

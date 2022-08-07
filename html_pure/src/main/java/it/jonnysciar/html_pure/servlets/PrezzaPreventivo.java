@@ -3,10 +3,8 @@ package it.jonnysciar.html_pure.servlets;
 import it.jonnysciar.html_pure.beans.Opzione;
 import it.jonnysciar.html_pure.beans.Preventivo;
 import it.jonnysciar.html_pure.beans.Prodotto;
-import it.jonnysciar.html_pure.beans.Utente;
 import it.jonnysciar.html_pure.dao.PreventivoDAO;
 import it.jonnysciar.html_pure.dao.ProdottoDAO;
-import it.jonnysciar.html_pure.dao.UtenteDAO;
 import org.thymeleaf.context.WebContext;
 
 import javax.servlet.annotation.WebServlet;
@@ -16,28 +14,23 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet("/dettagliPreventivo")
-public class DettagliPreventivo extends ThymeLeafServlet {
+@WebServlet("/prezzaPreventivo")
+public class PrezzaPreventivo extends ThymeLeafServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String path = "/WEB-INF/templates/dettagliPreventivo.html";
+        String path = "/WEB-INF/templates/prezzaPreventivo.html";
         response.setCharacterEncoding("UTF-8");
         final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
 
-        Utente utente = (Utente) request.getSession().getAttribute("user");
         PreventivoDAO preventivoDAO = new PreventivoDAO(connection);
         Preventivo preventivo;
         Prodotto prodotto;
-        String impiegato = null;
         List<Opzione> opzioni;
         try {
             preventivo = preventivoDAO.getById(Integer.parseInt(request.getParameter("id")));
-            if (preventivo == null || (utente.getId() != preventivo.getId_utente() && utente.getId() != preventivo.getId_impiegato())) {
+            if (preventivo == null || preventivo.getPrezzo() != 0 || preventivo.getId_impiegato() != 0) {
                 throw new SQLException();
-            }
-            if (preventivo.getId_impiegato() != 0) {
-                impiegato = new UtenteDAO(connection).getById(preventivo.getId_impiegato()).getUsername();
             }
             opzioni = preventivoDAO.getAllOpzioniById(preventivo.getId());
             prodotto = new ProdottoDAO(connection).getByCodice(preventivo.getCodice_prodotto());
@@ -48,10 +41,10 @@ public class DettagliPreventivo extends ThymeLeafServlet {
         }
 
         ctx.setVariable("good", true);
-        ctx.setVariable("impiegato", impiegato);
         ctx.setVariable("opzioni", opzioni);
         ctx.setVariable("preventivo", preventivo);
         ctx.setVariable("prodotto", prodotto);
+        ctx.setVariable("preventivoId", preventivo.getId());
         templateEngine.process(path, ctx, response.getWriter());
     }
 }

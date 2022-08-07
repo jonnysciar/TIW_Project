@@ -7,36 +7,93 @@
 </head>
 <body>
 
-  <nav class="navbar navbar-expand-md navbar-light bg-warning">
-    <div class="container-fluid">
-      <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+<nav class="navbar navbar-expand-md navbar-light bg-warning">
+  <div class="container-fluid">
+    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
 
-      </div>
-
-      <div class="mx-auto order-0">
-        <a class="navbar-brand mx-auto" th:href="@{/}">TIW Shop</a>
-      </div>
-
-      <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="navbar-brand" th:href="@{/logout}">Logout</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
-  <div class="container align-items-center justify-content-center" style="text-align: center">
-    <div class="row mb-3 mt-3">
-      <p>Homepage impiegato</p>
     </div>
 
-    <div class="row mb-3">
-      <p th:text="${value}"></p>
+    <div class="mx-auto order-0">
+      <a class="navbar-brand mx-auto" th:href="@{/}">TIW Shop</a>
     </div>
 
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="navbar-brand" th:href="@{/logout}">Logout</a>
+        </li>
+      </ul>
+    </div>
   </div>
+</nav>
+
+<div class="container mt-3">
+  <div class="row mt-3">
+    <div class="col d-flex justify-content-center">
+      <h3 th:text="'Benvenuto ' + ${name} + ', ecco i preventivi da gestire:'">
+        Benvenuto Impiegato, ecco i preventivi da gestire:
+      </h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="container">
+      <div class="row">
+        <div class="col d-flex justify-content-start">
+          <div class="container">
+            <div class="row mb-3 mt-3 justify-content-start">
+              <h4 style="text-align: center">Preventivi già prezzati</h4>
+            </div>
+            <div class="row mb-3 d-flex justify-content-start">
+              <table class="table">
+                <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Prodotto</th>
+                  <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="p : ${prezzati}">
+                  <td th:text="${p.id}">0</td>
+                  <td th:text="${p.nomeProdotto}">Nome Prodotto</td>
+                  <td><a href="homepageImpiegato.html.html" th:href="@{/dettagliPreventivo(id=${p.id})}">Dettagli</a></td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col d-flex justify-content-center">
+        </div>
+        <div class="col d-flex justify-content-end">
+          <div class="container">
+            <div class="row mb-3 mt-3 justify-content-end">
+              <h4 style="text-align: center">Preventivi da prezzare</h4>
+            </div>
+            <div class="row mb-3 d-flex justify-content-end">
+              <table class="table">
+                <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Prodotto</th>
+                  <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                  <tr th:each="preventivo : ${daPrezzare}">
+                    <td th:text="${preventivo.id}">0</td>
+                    <td th:text="${preventivo.nomeProdotto}">Nome Prodotto</td>
+                    <td><a href="homepageImpiegato.html.html" th:href="@{/prezzaPreventivo(id=${preventivo.id})}">Prezza</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>

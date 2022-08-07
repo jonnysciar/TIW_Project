@@ -1,6 +1,5 @@
 package it.jonnysciar.html_pure.dao;
 
-import it.jonnysciar.html_pure.beans.Prodotto;
 import it.jonnysciar.html_pure.beans.Utente;
 
 import java.sql.Connection;
