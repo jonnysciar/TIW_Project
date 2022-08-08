@@ -53,7 +53,7 @@ public class HomepageUtente extends ThymeLeafServlet {
                 ctx.setVariable("options", options);
             }
             ctx.setVariable("selected", true);
-            ctx.setVariable("productName", prodotto.getNome());
+            ctx.setVariable("prodotto", prodotto);
             ctx.setVariable("buttonAction", "/CheckPreventivo");
             ctx.setVariable("method", "POST");
         } else if (request.getParameter("productId") != null) {

@@ -46,7 +46,10 @@
                   <option th:disabled="disabled" selected="true" value="">Scegli un prodotto</option>
                   <option th:each="product : ${products}" th:value="${product.id}" th:text="${product.nome}"></option>
                 </select>
-                <input type="hidden" th:value="${productName}" th:text="${productName}" style="text-align: center" th:if="${selected}" name="productName">
+                <input type="hidden" th:value="${prodotto.nome}" th:text="${prodotto.nome}" style="text-align: center" th:if="${selected}" name="productName">
+              </div>
+              <div class="row mb-3 d-flex align-items-center justify-content-center" th:if="${selected}">
+                <img style="width: 200px" class="rounded mx-auto d-block" th:src="@{/images/{img}(img=${prodotto.imgPath})}" src="../../images/placeholder.jpg">
               </div>
               <div class="row mb-3 d-flex align-items-center justify-content-center" th:if="${selected}">
                 <table class="table">
