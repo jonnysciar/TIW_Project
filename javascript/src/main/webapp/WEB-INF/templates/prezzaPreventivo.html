@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>TIW Shop - Prezza Preventivo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-md navbar-light bg-warning">
+    <div class="container-fluid">
+      <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+
+      </div>
+
+      <div class="mx-auto order-0">
+        <a class="navbar-brand mx-auto" th:href="@{/}">TIW Shop</a>
+      </div>
+
+      <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="navbar-brand" th:href="@{/logout}">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-3" th:if="${!good}">
+    <div class="row mt-3">
+      <div class="col d-flex justify-content-center">
+        <h4 style="color: red">Errore nella richiesta!</h4>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mt-3" th:if="${good}">
+    <div class="row mt-3">
+      <div class="col d-flex justify-content-center">
+        <h4>Ecco i dettagli del preventivo da prezzare:</h4>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col d-flex justify-content-center">
+        <h5 th:text="'Preventivo numero: #' + ${preventivo.id}">Preventivo numero: #1234</h5>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="container d-flex justify-content-center">
+        <div class="row">
+          <div class="col col-sm-auto">
+            <table class="table text-center table-borderless">
+              <thead>
+              <tr>
+                <th th:text="${prodotto.nome}" style="text-align: center" class="mt-1">Nome prodotto</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td><img src="../../images/placeholder.jpg" style="width: 200px" class="rounded mx-auto d-block" th:src="@{/images/{img}(img=${prodotto.imgPath})}"></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col col-sm-auto">
+            <table class="table text-center">
+              <thead>
+              <tr>
+                <th>Opzione</th>
+                <th>Tipo</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="opzione : ${opzioni}">
+                <td th:text="${opzione.nome}">Opzione 1</td>
+                <td th:text="${opzione.tipo}">in offerta</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col col-sm-auto">
+            <form method="POST" th:action="@{/CheckPrice}">
+              <input type="hidden" th:value="${preventivoId}" name="preventivoId">
+              <table class="table text-center table-borderless">
+                <thead>
+                <tr>
+                  <th>Inserisci prezzo</th>
+                </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <input type="number" class="form-control" id="price" name="price" required>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <button type="submit" class="btn btn-warning">Invia Prezzo</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <p th:text="${errorMsg}" style="text-align: center; color: red">Messaggio errore</p>
+    </div>
+  </div>
+
+</body>
+</html>
