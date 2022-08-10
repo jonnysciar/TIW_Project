@@ -74,7 +74,7 @@ CREATE TABLE `preventivi` (
   CONSTRAINT `fk_preventivi_1` FOREIGN KEY (`codice_prodotto`) REFERENCES `prodotti` (`codice`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_preventivi_2` FOREIGN KEY (`id_utente`) REFERENCES `utenti` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_preventivi_3` FOREIGN KEY (`id_impiegato`) REFERENCES `utenti` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -93,7 +93,9 @@ INSERT INTO `preventivi` VALUES
 (7,5,9,10,100),
 (8,5,9,NULL,NULL),
 (9,4,19,NULL,NULL),
-(10,2,11,8,30);
+(10,2,11,8,30),
+(11,3,9,NULL,NULL),
+(12,3,19,NULL,NULL);
 /*!40000 ALTER TABLE `preventivi` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -136,7 +138,9 @@ INSERT INTO `preventivi_opzioni` VALUES
 (8,3),
 (9,2),
 (9,4),
-(10,6);
+(10,6),
+(11,1),
+(12,1);
 /*!40000 ALTER TABLE `preventivi_opzioni` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -253,4 +257,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-08-07 20:16:54
+-- Dump completed on 2022-08-10 14:19:10
