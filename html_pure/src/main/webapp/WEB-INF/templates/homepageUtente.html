@@ -49,7 +49,7 @@
                 <input type="hidden" th:value="${prodotto.nome}" th:text="${prodotto.nome}" style="text-align: center" th:if="${selected}" name="productName">
               </div>
               <div class="row mb-3 d-flex align-items-center justify-content-center" th:if="${selected}">
-                <img style="width: 200px" class="rounded mx-auto d-block" th:src="@{/images/{img}(img=${prodotto.imgPath})}" src="../images/placeholder.jpg">
+                <img style="width: 200px" class="rounded mx-auto d-block" th:src="@{/images/{img}(img=${prodotto.imgPath})}" src="../../images/placeholder.jpg">
               </div>
               <div class="row mb-3 d-flex align-items-center justify-content-center" th:if="${selected}">
                 <table class="table">

@@ -18,7 +18,7 @@ public class Login extends ThymeLeafServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
         ctx.setVariable("variabile","/DBTest");
-        String path = "/templates/login.html";
+        String path = "/WEB-INF/templates/login.html";
         templateEngine.process(path, ctx, response.getWriter());
     }
 }

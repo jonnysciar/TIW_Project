@@ -3,7 +3,6 @@ package it.jonnysciar.javascript.servlets;
 import it.jonnysciar.javascript.beans.Preventivo;
 import it.jonnysciar.javascript.beans.Utente;
 import it.jonnysciar.javascript.dao.PreventivoDAO;
-import org.thymeleaf.context.WebContext;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,15 +13,13 @@ import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet("/homepageImpiegato")
-public class HomepageImpiegato extends ThymeLeafServlet {
+public class HomepageImpiegato extends DBServlet {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setCharacterEncoding("UTF-8");
-        final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
 
         Utente utente = (Utente) request.getSession().getAttribute("user");
         PreventivoDAO preventivoDAO = new PreventivoDAO(connection);
@@ -35,12 +32,7 @@ public class HomepageImpiegato extends ThymeLeafServlet {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "DB Error!");
             return;
         }
-        ctx.setVariable("prezzati", prezzati);
-        ctx.setVariable("daPrezzare", daPrezzare);
-        ctx.setVariable("name", utente.getNome());
 
-        String path = "/WEB-INF/templates/homepageImpiegato.html";
-        templateEngine.process(path, ctx, response.getWriter());
     }
 
 }

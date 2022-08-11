@@ -39,7 +39,7 @@ public class HomepageImpiegato extends ThymeLeafServlet {
         ctx.setVariable("daPrezzare", daPrezzare);
         ctx.setVariable("name", utente.getNome());
 
-        String path = "/templates/homepageImpiegato.html";
+        String path = "/WEB-INF/templates/homepageImpiegato.html";
         templateEngine.process(path, ctx, response.getWriter());
     }
 

@@ -6,7 +6,6 @@ import it.jonnysciar.javascript.beans.Prodotto;
 import it.jonnysciar.javascript.beans.Utente;
 import it.jonnysciar.javascript.dao.PreventivoDAO;
 import it.jonnysciar.javascript.dao.ProdottoDAO;
-import org.thymeleaf.context.WebContext;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +15,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet("/CheckPrice")
-public class ControlloPrezzo extends ThymeLeafServlet {
+public class ControlloPrezzo extends DBServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -37,9 +36,6 @@ public class ControlloPrezzo extends ThymeLeafServlet {
         }
 
         if (prezzo <= 0) {
-            String path = "/WEB-INF/templates/prezzaPreventivo.html";
-            response.setCharacterEncoding("UTF-8");
-            final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
 
             Prodotto prodotto;
             List<Opzione> opzioni;
@@ -51,13 +47,6 @@ public class ControlloPrezzo extends ThymeLeafServlet {
                 return;
             }
 
-            ctx.setVariable("good", true);
-            ctx.setVariable("opzioni", opzioni);
-            ctx.setVariable("preventivo", preventivo);
-            ctx.setVariable("prodotto", prodotto);
-            ctx.setVariable("preventivoId", preventivo.getId());
-            ctx.setVariable("errorMsg", "Il prezzo deve essere maggiore di 0");
-            templateEngine.process(path, ctx, response.getWriter());
         } else {
             try {
                 preventivoDAO.updatePreventivoById(preventivo.getId(), utente.getId(), prezzo);
@@ -70,11 +59,8 @@ public class ControlloPrezzo extends ThymeLeafServlet {
     }
 
     private void setupPageError(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String path = "/WEB-INF/templates/prezzaPreventivo.html";
+        String path = "/templates/prezzaPreventivo.html";
         response.setCharacterEncoding("UTF-8");
-        final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
 
-        ctx.setVariable("good", false);
-        templateEngine.process(path, ctx, response.getWriter());
     }
 }

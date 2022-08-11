@@ -5,7 +5,6 @@ import it.jonnysciar.javascript.dao.UtenteDAO;
 import it.jonnysciar.javascript.database.DBConnection;
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.validator.routines.EmailValidator;
-import org.thymeleaf.context.WebContext;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +14,7 @@ import java.io.Serial;
 import java.sql.SQLException;
 
 @WebServlet("/CheckSignUp")
-public class ControlloRegistrazione extends ThymeLeafServlet {
+public class ControlloRegistrazione extends DBServlet {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -23,8 +22,7 @@ public class ControlloRegistrazione extends ThymeLeafServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setCharacterEncoding("UTF-8");
-        final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
-        String path = "/WEB-INF/templates/registrazione.html";
+        String path = "/templates/registrazione.html";
 
         String nome = StringEscapeUtils.escapeJava(request.getParameter("nome"));
         String cognome = StringEscapeUtils.escapeJava(request.getParameter("cognome"));
@@ -37,26 +35,24 @@ public class ControlloRegistrazione extends ThymeLeafServlet {
         if (nome == null || cognome == null || email == null || username == null || password == null || password2 == null ||
             nome.isEmpty() || cognome.isEmpty() || email.isEmpty() || username.isEmpty() || password.isEmpty() || password2.isEmpty()) {
 
-            ctx.setVariable("errorMsg", "Alcuni campi non risultano compilati correttamente");
-            templateEngine.process(path, ctx, response.getWriter());
+            /*ctx.setVariable("errorMsg", "Alcuni campi non risultano compilati correttamente");
+            templateEngine.process(path, ctx, response.getWriter());*/
         } else if (!password.equals(password2)) {
-            ctx.setVariable("errorMsg", "Le password inserite non coincidono");
-            templateEngine.process(path, ctx, response.getWriter());
+            /*ctx.setVariable("errorMsg", "Le password inserite non coincidono");
+            templateEngine.process(path, ctx, response.getWriter());*/
         } else if (!EmailValidator.getInstance().isValid(email)) {
-            ctx.setVariable("errorMsg", "email non valida");
-            templateEngine.process(path, ctx, response.getWriter());
+            /*ctx.setVariable("errorMsg", "email non valida");
+            templateEngine.process(path, ctx, response.getWriter());*/
         } else {
             Utente utente = new Utente(username, nome, cognome, email, checkbox != null);
             try {
                 if (new UtenteDAO(connection).addUtente(utente, password)) {
-                    path = "/WEB-INF/templates/reg_successo.html";
-                    templateEngine.process(path, ctx, response.getWriter());
+                    path = "/templates/reg_successo.html";
+
                 } else throw new SQLException();
             } catch (SQLException e) {
                 String errorColumn = "username";
                 if (e.getMessage().contains("email")) errorColumn = "email";
-                ctx.setVariable("errorMsg",  errorColumn + " già in uso");
-                templateEngine.process(path, ctx, response.getWriter());
             }
         }
     }

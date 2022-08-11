@@ -4,9 +4,8 @@ import it.jonnysciar.javascript.beans.Utente;
 import it.jonnysciar.javascript.dao.UtenteDAO;
 import it.jonnysciar.javascript.database.DBConnection;
 import org.apache.commons.text.StringEscapeUtils;
-import org.thymeleaf.context.WebContext;
 
-import javax.servlet.ServletContext;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,7 +14,8 @@ import java.io.Serial;
 import java.sql.SQLException;
 
 @WebServlet("/CheckLogin")
-public class ControlloLogin extends ThymeLeafServlet {
+@MultipartConfig
+public class ControlloLogin extends DBServlet {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -26,10 +26,14 @@ public class ControlloLogin extends ThymeLeafServlet {
         String username = StringEscapeUtils.escapeJava(request.getParameter("username"));
         String password = StringEscapeUtils.escapeJava(request.getParameter("password"));
 
+        System.out.println(request);
+        System.out.println(password);
+
         if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing credential value");
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().println("Missing credential value");
         } else {
-            // query db to authenticate for user
+
             UtenteDAO userDao = new UtenteDAO(connection);
             Utente utente;
             try {
@@ -38,23 +42,16 @@ public class ControlloLogin extends ThymeLeafServlet {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not Possible to check credentials");
                 return;
             }
-            // If the user exists, add info to the session and go to home page, otherwise
-            // show login page with error message
-            String path;
+
             if (utente == null) {
-                ServletContext servletContext = getServletContext();
-                final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-                ctx.setVariable("errorMsg", "username o password non corretti");
-                path = "/WEB-INF/templates/login.html";
-                templateEngine.process(path, ctx, response.getWriter());
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().println("Utente nullo!");
             } else {
                 request.getSession().setAttribute("user", utente);
-
-                path = getServletContext().getContextPath();
-                if (utente.isImpiegato()) path = path + "/homepageImpiegato";
-                else path = path + "/homepageUtente";
-
-                response.sendRedirect(path);
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().println(username);
             }
         }
     }

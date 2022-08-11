@@ -5,7 +5,6 @@ import it.jonnysciar.javascript.beans.Preventivo;
 import it.jonnysciar.javascript.beans.Prodotto;
 import it.jonnysciar.javascript.dao.PreventivoDAO;
 import it.jonnysciar.javascript.dao.ProdottoDAO;
-import org.thymeleaf.context.WebContext;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,13 +14,10 @@ import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet("/prezzaPreventivo")
-public class PrezzaPreventivo extends ThymeLeafServlet {
+public class PrezzaPreventivo extends DBServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String path = "/WEB-INF/templates/prezzaPreventivo.html";
-        response.setCharacterEncoding("UTF-8");
-        final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
 
         PreventivoDAO preventivoDAO = new PreventivoDAO(connection);
         Preventivo preventivo;
@@ -35,16 +31,9 @@ public class PrezzaPreventivo extends ThymeLeafServlet {
             opzioni = preventivoDAO.getAllOpzioniById(preventivo.getId());
             prodotto = new ProdottoDAO(connection).getByCodice(preventivo.getCodice_prodotto());
         } catch (SQLException | NumberFormatException e) {
-            ctx.setVariable("good", false);
-            templateEngine.process(path, ctx, response.getWriter());
+            e.printStackTrace();
             return;
         }
 
-        ctx.setVariable("good", true);
-        ctx.setVariable("opzioni", opzioni);
-        ctx.setVariable("preventivo", preventivo);
-        ctx.setVariable("prodotto", prodotto);
-        ctx.setVariable("preventivoId", preventivo.getId());
-        templateEngine.process(path, ctx, response.getWriter());
     }
 }

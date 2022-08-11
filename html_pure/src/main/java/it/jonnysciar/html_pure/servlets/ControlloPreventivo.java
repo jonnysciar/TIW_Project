@@ -22,7 +22,7 @@ public class ControlloPreventivo extends ThymeLeafServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setCharacterEncoding("UTF-8");
-        String path = "/templates/homepageUtente.html";
+        String path = "/WEB-INF/templates/homepageUtente.html";
         final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
 
         ProdottoDAO prodottoDAO = new ProdottoDAO(connection);
