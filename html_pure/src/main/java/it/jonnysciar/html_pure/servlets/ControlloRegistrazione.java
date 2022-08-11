@@ -2,7 +2,6 @@ package it.jonnysciar.html_pure.servlets;
 
 import it.jonnysciar.html_pure.beans.Utente;
 import it.jonnysciar.html_pure.dao.UtenteDAO;
-import it.jonnysciar.html_pure.database.DBConnection;
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.thymeleaf.context.WebContext;
@@ -58,15 +57,6 @@ public class ControlloRegistrazione extends ThymeLeafServlet {
                 ctx.setVariable("errorMsg",  errorColumn + " già in uso");
                 templateEngine.process(path, ctx, response.getWriter());
             }
-        }
-    }
-
-    @Override
-    public void destroy() {
-        try {
-            DBConnection.closeConnection(connection);
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 }

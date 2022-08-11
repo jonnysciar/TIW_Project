@@ -9,6 +9,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 public abstract class ThymeLeafServlet extends HttpServlet {
 
@@ -25,6 +26,15 @@ public abstract class ThymeLeafServlet extends HttpServlet {
         this.templateEngine = new TemplateEngine();
         this.templateEngine.setTemplateResolver(templateResolver);
         templateResolver.setSuffix(".html");
+    }
+
+    @Override
+    public void destroy() {
+        try {
+            DBConnection.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }
