@@ -1,24 +1,21 @@
 /**
- * Login management
+ * Signup management
  */
 (function() { // avoid variables ending up in the global scope
 
-   document.getElementById("loginButton").addEventListener('click', function(event) {
+   document.getElementById("signupButton").addEventListener('click', function(event) {
       event.preventDefault();
       this.blur();
       var form = document.getElementById("form");
       if (form.checkValidity()) {
-         makeCall("POST", "CheckLogin", form,
+         makeCall("POST", "CheckSignUp", form,
              function(x) {
                 if (x.readyState == XMLHttpRequest.DONE) {
                    var message = x.responseText;
                    switch (x.status) {
                       case 200:
-                         if(JSON.parse(message).impiegato) {
-                            window.location.href = "homepageImpiegato";
-                         } else {
-                            window.location.href = "homepageUtente";
-                         }
+                         document.getElementById("signupForm").classList.add("d-none")
+                         document.getElementById("successMessage").classList.remove("d-none");
                          break;
                       default:
                          document.getElementById("errorMsg").textContent = message;

@@ -8,7 +8,6 @@ import it.jonnysciar.javascript.dao.PreventivoDAO;
 import it.jonnysciar.javascript.dao.ProdottoDAO;
 import it.jonnysciar.javascript.dao.UtenteDAO;
 
-
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

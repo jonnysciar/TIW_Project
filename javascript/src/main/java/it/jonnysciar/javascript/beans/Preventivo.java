@@ -11,12 +11,11 @@ public class Preventivo {
     private final int id_utente;
     private int id_impiegato;
     private int prezzo;
-    private List<Integer> opzioni;
+    private List<Opzione> opzioni;
 
-    public Preventivo(int codice_prodotto, int id_utente, List<Integer> opzioni) {
+    public Preventivo(int codice_prodotto, int id_utente) {
         this.codice_prodotto = codice_prodotto;
         this.id_utente = id_utente;
-        this.opzioni = new ArrayList<>(opzioni);
     }
 
     public Preventivo(int id, int codice_prodotto, int id_utente, int id_impiegato, int prezzo) {
@@ -67,7 +66,11 @@ public class Preventivo {
         this.nomeProdotto = nomeProdotto;
     }
 
-    public List<Integer> getOpzioni() {
+    public List<Opzione> getOpzioni() {
         return new ArrayList<>(opzioni);
+    }
+
+    public void setOpzioni(List<Opzione> opzioni) {
+        this.opzioni = new ArrayList<>(opzioni);
     }
 }

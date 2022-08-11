@@ -14,13 +14,13 @@
       </div>
 
       <div class="mx-auto order-0">
-        <a class="navbar-brand mx-auto" th:href="@{/}">TIW Shop</a>
+        <a class="navbar-brand mx-auto" href="./homepageUtente.html">TIW Shop</a>
       </div>
 
       <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="navbar-brand" th:href="@{/logout}">Logout</a>
+            <a class="navbar-brand" href="./logout">Logout</a>
           </li>
         </ul>
       </div>
@@ -30,43 +30,41 @@
   <div class="container mt-3">
     <div class="row mt-3">
       <div class="col d-flex justify-content-center">
-        <h3 th:text="'Benvenuto ' + ${name} + ', ecco cosa puoi fare:'">Benvenuto Utente, ecco cosa puoi fare:</h3>
+        <h3 id="welcomeText">Benvenuto Utente, ecco cosa puoi fare:</h3>
       </div>
     </div>
     <div class="row">
       <div class="container">
         <div class="row">
           <div class="col d-flex justify-content-start">
-            <form action="#" th:action="@{${buttonAction}}" method="GET" th:method="${method}">
+            <form>
               <div class="row mb-3 mt-3">
                 <h4 style="text-align: center">Richiedi il tuo preventivo!</h4>
               </div>
               <div class="row mb-3 d-flex align-items-center justify-content-center">
-                <select class="form-control" name="productId" th:if="${!selected}">
-                  <option th:disabled="disabled" selected="true" value="">Scegli un prodotto</option>
-                  <option th:each="product : ${products}" th:value="${product.id}" th:text="${product.nome}"></option>
+                <select class="form-control" name="productId" id="selectProduct">
+                  <option disabled="disabled" selected="true" value="">Scegli un prodotto</option>
                 </select>
-                <input type="hidden" th:value="${prodotto.nome}" th:text="${prodotto.nome}" style="text-align: center" th:if="${selected}" name="productName">
               </div>
-              <div class="row mb-3 d-flex align-items-center justify-content-center" th:if="${selected}">
-                <img style="width: 200px" class="rounded mx-auto d-block" th:src="@{/images/{img}(img=${prodotto.imgPath})}" src="../images/placeholder.jpg">
+              <div class="row mb-3 d-flex align-items-center justify-content-center d-none">
+                <img style="width: 200px; display: none" class="rounded mx-auto d-block" src="../../images/placeholder.jpg" id="productImg">
               </div>
-              <div class="row mb-3 d-flex align-items-center justify-content-center" th:if="${selected}">
-                <table class="table">
+              <div class="row mb-3 d-flex align-items-center justify-content-center d-none">
+                <table class="table" id="optionTable">
                   <tbody>
-                    <tr th:each="option : ${options}">
-                      <td th:text="${option.nome}">opzione1</td>
-                      <td th:text="${option.tipo}">normale</td>
-                      <td><input type="checkbox" th:value="${option.codice}" name="checkbox"></td>
+                    <tr>
+                      <td>opzione1</td>
+                      <td>normale</td>
+                      <td><input type="checkbox" value="" name="checkbox"></td>
                     </tr>
                   </tbody>
                 </table>
               </div>
               <div class="row mb-3 d-flex align-items-center justify-content-center">
-                <p th:text="${errorMsg}" style="text-align: center; color: red"></p>
+                <p id="errorMsg" style="text-align: center; color: red"></p>
               </div>
-              <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-warning">Richiedi preventivo</button>
+              <div class="d-flex justify-content-center d-none">
+                <button type="submit" class="btn btn-warning" id="preventivoButton">Richiedi preventivo</button>
               </div>
             </form>
           </div>

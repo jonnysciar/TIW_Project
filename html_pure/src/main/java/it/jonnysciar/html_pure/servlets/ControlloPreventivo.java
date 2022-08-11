@@ -46,8 +46,8 @@ public class ControlloPreventivo extends ThymeLeafServlet {
 
             try {
                 Preventivo preventivo = new Preventivo(prodotto.getId(),
-                                            utente.getId(), Stream.of(optionsArray).map(Integer::parseInt).toList());
-                new PreventivoDAO(connection).addPreventivo(preventivo);
+                                            utente.getId());
+                new PreventivoDAO(connection).addPreventivo(preventivo, Stream.of(optionsArray).map(Integer::parseInt).toList());
                 response.sendRedirect(getServletContext().getContextPath() + "/homepageUtente");
             } catch (SQLException | NumberFormatException e) {
                 if (setupPageError(ctx, utente, prodottoDAO, "Errore nella richista di preventivo!")) {

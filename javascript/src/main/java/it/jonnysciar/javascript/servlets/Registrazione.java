@@ -16,7 +16,7 @@ public class Registrazione extends DBServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        RequestDispatcher view = request.getRequestDispatcher("./templates/registrazione.html");
+        RequestDispatcher view = request.getRequestDispatcher("./WEB-INF/templates/registrazione.html");
         view.forward(request, response);
     }
 

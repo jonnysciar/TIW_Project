@@ -1,9 +1,13 @@
 package it.jonnysciar.html_pure.beans;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Prodotto {
     private final int id;
     private final String nome;
     private final String imgPath;
+    private List<Opzione> opzioni;
 
     public Prodotto(int id, String nome, String imgPath) {
         this.id = id;
@@ -21,6 +25,14 @@ public class Prodotto {
 
     public String getImgPath() {
         return imgPath;
+    }
+
+    public List<Opzione> getOpzioni() {
+        return new ArrayList<>(opzioni);
+    }
+
+    public void setOpzioni(List<Opzione> opzioni) {
+        this.opzioni = new ArrayList<>(opzioni);
     }
 
     @Override

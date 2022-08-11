@@ -1,16 +1,12 @@
 package it.jonnysciar.javascript.servlets;
 
-import it.jonnysciar.javascript.beans.Preventivo;
-import it.jonnysciar.javascript.beans.Utente;
-import it.jonnysciar.javascript.dao.PreventivoDAO;
-
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.Serial;
-import java.sql.SQLException;
-import java.util.List;
 
 @WebServlet("/homepageImpiegato")
 public class HomepageImpiegato extends DBServlet {
@@ -19,20 +15,9 @@ public class HomepageImpiegato extends DBServlet {
     private static final long serialVersionUID = 1L;
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        Utente utente = (Utente) request.getSession().getAttribute("user");
-        PreventivoDAO preventivoDAO = new PreventivoDAO(connection);
-        List<Preventivo> prezzati;
-        List<Preventivo> daPrezzare;
-        try {
-            prezzati = preventivoDAO.getAllByImpiegatoId(utente.getId());
-            daPrezzare = preventivoDAO.getAllPreventiviNotManaged();
-        } catch (SQLException e) {
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "DB Error!");
-            return;
-        }
-
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        RequestDispatcher view = request.getRequestDispatcher("./WEB-INF/templates/homepageImpiegato.html");
+        view.forward(request, response);
     }
 
 }

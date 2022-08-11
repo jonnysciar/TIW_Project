@@ -1,5 +1,6 @@
 package it.jonnysciar.javascript.servlets;
 
+import com.google.gson.Gson;
 import it.jonnysciar.javascript.beans.Utente;
 import it.jonnysciar.javascript.dao.UtenteDAO;
 import it.jonnysciar.javascript.database.DBConnection;
@@ -22,16 +23,14 @@ public class ControlloLogin extends DBServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setCharacterEncoding("UTF-8");
 
         String username = StringEscapeUtils.escapeJava(request.getParameter("username"));
         String password = StringEscapeUtils.escapeJava(request.getParameter("password"));
 
-        System.out.println(request);
-        System.out.println(password);
-
         if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().println("Missing credential value");
+            response.getWriter().println("Credenziali nulle!");
         } else {
 
             UtenteDAO userDao = new UtenteDAO(connection);
@@ -39,29 +38,20 @@ public class ControlloLogin extends DBServlet {
             try {
                 utente = userDao.checkCredentials(username, password);
             } catch (SQLException e) {
-                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not Possible to check credentials");
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                response.getWriter().println("Errore interno al server!");
                 return;
             }
 
             if (utente == null) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                response.getWriter().println("Utente nullo!");
+                response.getWriter().println("Username o password errati!");
             } else {
                 request.getSession().setAttribute("user", utente);
                 response.setStatus(HttpServletResponse.SC_OK);
                 response.setContentType("application/json");
-                response.setCharacterEncoding("UTF-8");
-                response.getWriter().println(username);
+                response.getWriter().println(new Gson().toJson(utente));
             }
-        }
-    }
-
-    @Override
-    public void destroy() {
-        try {
-            DBConnection.closeConnection(connection);
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 

@@ -17,7 +17,7 @@ public class PreventivoDAO extends DAO{
         super(connection);
     }
 
-    public void addPreventivo(Preventivo preventivo) throws SQLException {
+    public void addPreventivo(Preventivo preventivo, List<Integer> codiciOpzioniRichiesti) throws SQLException {
         preventivo.setId(getNextId() + 1);
         connection.setAutoCommit(false);
         String query = "INSERT INTO preventivi(id, codice_prodotto, id_utente) VALUES (?, ?, ?)";
@@ -27,17 +27,19 @@ public class PreventivoDAO extends DAO{
             statement.setInt(3, preventivo.getId_utente());
             statement.executeUpdate();
         }
-        List<Integer> opzioni = new ProdottoDAO(connection).getAllOpzioniById(preventivo.getCodice_prodotto())
-                                .stream()
-                                .map(Opzione::getCodice)
-                                .toList();
-        for (Integer o : preventivo.getOpzioni()) {
-            if (opzioni.contains(o)) {
+        List<Opzione> opzioni = new ProdottoDAO(connection).getAllOpzioniById(preventivo.getCodice_prodotto());
+        List<Integer> codiciOpzioniProdotto = opzioni.stream().map(Opzione::getCodice).toList();
+        for (Integer i : codiciOpzioniRichiesti) {
+            if (codiciOpzioniProdotto.contains(i)) {
                 query = "INSERT INTO preventivi_opzioni(id_preventivo, codice_opzione) VALUES (?, ?)";
                 try (PreparedStatement statement = connection.prepareStatement(query)) {
-                    statement.setInt(1,preventivo.getId());
-                    statement.setInt(2, o);
+                    statement.setInt(1, preventivo.getId());
+                    statement.setInt(2, i);
                     statement.executeUpdate();
+                } catch (SQLException e) {
+                    connection.rollback();
+                    connection.setAutoCommit(false);
+                    throw e;
                 }
             } else {
                 connection.rollback();

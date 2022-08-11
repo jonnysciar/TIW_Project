@@ -66,6 +66,6 @@
         <url-pattern>/CheckPreventivo</url-pattern>
     </filter-mapping>
     <welcome-file-list>
-        <welcome-file>/templates/login.html</welcome-file>
+        <welcome-file>/WEB-INF/templates/login.html</welcome-file>
     </welcome-file-list>
 </web-app>
