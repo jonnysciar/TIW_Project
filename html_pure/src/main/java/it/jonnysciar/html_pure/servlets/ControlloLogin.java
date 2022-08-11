@@ -29,7 +29,7 @@ public class ControlloLogin extends ThymeLeafServlet {
         if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing credential value");
         } else {
-            // query db to authenticate for user
+
             UtenteDAO userDao = new UtenteDAO(connection);
             Utente utente;
             try {
@@ -38,8 +38,7 @@ public class ControlloLogin extends ThymeLeafServlet {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not Possible to check credentials");
                 return;
             }
-            // If the user exists, add info to the session and go to home page, otherwise
-            // show login page with error message
+
             String path;
             if (utente == null) {
                 ServletContext servletContext = getServletContext();
