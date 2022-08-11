@@ -37,7 +37,7 @@ public class ControlloPrezzo extends ThymeLeafServlet {
         }
 
         if (prezzo <= 0) {
-            String path = "/WEB-INF/templates/prezzaPreventivo.html";
+            String path = "/templates/prezzaPreventivo.html";
             response.setCharacterEncoding("UTF-8");
             final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
 
@@ -70,7 +70,7 @@ public class ControlloPrezzo extends ThymeLeafServlet {
     }
 
     private void setupPageError(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String path = "/WEB-INF/templates/prezzaPreventivo.html";
+        String path = "/templates/prezzaPreventivo.html";
         response.setCharacterEncoding("UTF-8");
         final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
 

@@ -65,7 +65,7 @@ public class HomepageUtente extends ThymeLeafServlet {
             ctx.setVariable("buttonAction", "/homepageUtente");
         }
 
-        String path = "/WEB-INF/templates/homepageUtente.html";
+        String path = "/templates/homepageUtente.html";
         templateEngine.process(path, ctx, response.getWriter());
     }
 

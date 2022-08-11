@@ -21,7 +21,7 @@ public class DettagliPreventivo extends ThymeLeafServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String path = "/WEB-INF/templates/dettagliPreventivo.html";
+        String path = "/templates/dettagliPreventivo.html";
         response.setCharacterEncoding("UTF-8");
         final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
 

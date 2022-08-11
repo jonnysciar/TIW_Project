@@ -24,7 +24,7 @@ public class ControlloRegistrazione extends ThymeLeafServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setCharacterEncoding("UTF-8");
         final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
-        String path = "/WEB-INF/templates/registrazione.html";
+        String path = "/templates/registrazione.html";
 
         String nome = StringEscapeUtils.escapeJava(request.getParameter("nome"));
         String cognome = StringEscapeUtils.escapeJava(request.getParameter("cognome"));
@@ -49,7 +49,7 @@ public class ControlloRegistrazione extends ThymeLeafServlet {
             Utente utente = new Utente(username, nome, cognome, email, checkbox != null);
             try {
                 if (new UtenteDAO(connection).addUtente(utente, password)) {
-                    path = "/WEB-INF/templates/reg_successo.html";
+                    path = "/templates/reg_successo.html";
                     templateEngine.process(path, ctx, response.getWriter());
                 } else throw new SQLException();
             } catch (SQLException e) {

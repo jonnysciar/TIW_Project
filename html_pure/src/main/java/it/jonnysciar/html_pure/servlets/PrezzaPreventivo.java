@@ -19,7 +19,7 @@ public class PrezzaPreventivo extends ThymeLeafServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String path = "/WEB-INF/templates/prezzaPreventivo.html";
+        String path = "/templates/prezzaPreventivo.html";
         response.setCharacterEncoding("UTF-8");
         final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
 

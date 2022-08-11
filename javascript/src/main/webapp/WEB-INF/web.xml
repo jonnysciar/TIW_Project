@@ -40,7 +40,6 @@
         <url-pattern>/homepageUtente</url-pattern>
         <url-pattern>/homepageImpiegato</url-pattern>
         <url-pattern>/logout</url-pattern>
-        <url-pattern>/</url-pattern>
         <url-pattern>/CheckPreventivo</url-pattern>
         <url-pattern>/dettagliPreventivo</url-pattern>
         <url-pattern>/prezzaPreventivo</url-pattern>
@@ -50,7 +49,6 @@
         <filter-name>FiltroNotLogged</filter-name>
         <url-pattern>/login</url-pattern>
         <url-pattern>/registrazione</url-pattern>
-        <url-pattern>/</url-pattern>
         <url-pattern>/CheckSignUp</url-pattern>
         <url-pattern>/CheckLogin</url-pattern>
     </filter-mapping>
@@ -65,4 +63,7 @@
         <url-pattern>/homepageUtente</url-pattern>
         <url-pattern>/CheckPreventivo</url-pattern>
     </filter-mapping>
+    <welcome-file-list>
+        <welcome-file>/WEB-INF/templates/login.html</welcome-file>
+    </welcome-file-list>
 </web-app>
