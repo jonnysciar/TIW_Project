@@ -45,6 +45,7 @@
         <url-pattern>/dettagliPreventivo</url-pattern>
         <url-pattern>/prezzaPreventivo</url-pattern>
         <url-pattern>/CheckPrice</url-pattern>
+        <url-pattern>/getHomepage</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>FiltroNotLogged</filter-name>

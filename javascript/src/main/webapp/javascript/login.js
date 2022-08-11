@@ -6,23 +6,21 @@
    document.getElementById("loginButton").addEventListener('click', function(event) {
       event.preventDefault();
       this.blur();
-      var form = document.getElementById("form");
+      const form = document.getElementById("form");
       if (form.checkValidity()) {
-         makeCall("POST", "CheckLogin", form,
-             function(x) {
-                if (x.readyState == XMLHttpRequest.DONE) {
-                   var message = x.responseText;
-                   switch (x.status) {
-                      case 200:
-                         if(JSON.parse(message).impiegato) {
-                            window.location.href = "homepageImpiegato";
-                         } else {
-                            window.location.href = "homepageUtente";
-                         }
-                         break;
-                      default:
-                         document.getElementById("errorMsg").textContent = message;
-                         break;
+         makeCall("POST", "CheckLogin", form, function(request) {
+                if (request.readyState === XMLHttpRequest.DONE) {
+                   const message = request.responseText;
+                   if (request.status === 200) {
+                      const utente = JSON.parse(message);
+                      sessionStorage.setItem("user", message);
+                      if (utente.impiegato) {
+                         window.location.href = "homepageImpiegato";
+                      } else {
+                         window.location.href = "homepageUtente";
+                      }
+                   } else {
+                      document.getElementById("errorMsg").textContent = message;
                    }
                 }
              }

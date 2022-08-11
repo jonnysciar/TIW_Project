@@ -3,7 +3,6 @@ package it.jonnysciar.javascript.servlets;
 import com.google.gson.Gson;
 import it.jonnysciar.javascript.beans.Utente;
 import it.jonnysciar.javascript.dao.UtenteDAO;
-import it.jonnysciar.javascript.database.DBConnection;
 import org.apache.commons.text.StringEscapeUtils;
 
 import javax.servlet.annotation.MultipartConfig;
