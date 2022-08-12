@@ -27,7 +27,7 @@
                          errorMsg.textContent = message;
                       }
                    }
-                }
+                }, false
             );
          }
       } else {

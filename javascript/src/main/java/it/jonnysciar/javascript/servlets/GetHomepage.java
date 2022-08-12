@@ -7,7 +7,6 @@ import it.jonnysciar.javascript.beans.Utente;
 import it.jonnysciar.javascript.dao.PreventivoDAO;
 import it.jonnysciar.javascript.dao.ProdottoDAO;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,7 +24,6 @@ public class GetHomepage extends DBServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setCharacterEncoding("UTF-8");
-        Gson gson = new Gson();
         Utente utente = (Utente) request.getSession().getAttribute("user");
         ProdottoDAO prodottoDAO = new ProdottoDAO(connection);
         PreventivoDAO preventivoDAO = new PreventivoDAO(connection);
@@ -46,7 +44,7 @@ public class GetHomepage extends DBServlet {
         }
         response.setStatus(HttpServletResponse.SC_OK);
         response.setContentType("application/json");
-        response.getWriter().println(gson.toJson(List.of(prodotti, preventivi)));
+        response.getWriter().println(new Gson().toJson(List.of(prodotti, preventivi)));
     }
 
 }

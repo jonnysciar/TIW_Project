@@ -39,17 +39,17 @@
       <div class="container">
         <div class="row">
           <div class="col d-flex justify-content-start">
-            <form>
+            <form id="form">
               <div class="row mb-3 mt-3">
                 <h4 style="text-align: center">Richiedi il tuo preventivo!</h4>
               </div>
               <div class="row mb-3 d-flex align-items-center justify-content-center">
                 <select class="form-control" name="selectProduct" id="selectProduct">
-                  <option disabled="disabled" selected="true" value="">Scegli un prodotto</option>
+                  <option disabled="disabled" selected value="">Scegli un prodotto</option>
                 </select>
               </div>
               <div class="row mb-3 d-flex align-items-center justify-content-center d-none">
-                <img style="width: 200px; display: none" class="rounded mx-auto d-block" src="./images/placeholder.jpg" id="productImg">
+                <img style="width: 200px" class="rounded mx-auto d-block" src="./images/placeholder.jpg" id="productImg" alt="foto prodotto">
               </div>
               <div class="row mb-3 d-flex align-items-center justify-content-center d-none">
                 <table class="table" id="optionTable">
@@ -74,7 +74,7 @@
               <div class="row mb-3 mt-3 justify-content-end">
                 <h4 style="text-align: center">Visualizza i dettagli dei preventivi richiesti</h4>
               </div>
-              <div class="row mb-3 d-flex justify-content-end" style="height: 400px; overflow: auto">
+              <div class="row mb-3 d-flex justify-content-end" style="max-height: 400px; overflow: auto">
                 <table class="table" id="preventiviTable">
                   <thead>
                     <tr>
@@ -85,6 +85,14 @@
                     </tr>
                   </thead>
                   <tbody>
+                    <tr>
+                      <td>0</td>
+                      <td>Nome Prodotto</td>
+                      <td>
+                        <p style="color: green">Completato</p>
+                        <p>prezzo: 1234</p>
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
