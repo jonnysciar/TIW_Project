@@ -43,21 +43,21 @@
             <div class="row mb-3 mt-3 justify-content-start">
               <h4 style="text-align: center">Preventivi già prezzati</h4>
             </div>
-            <div class="row mb-3 d-flex justify-content-start">
+            <div class="row mb-3 d-flex justify-content-start" style="max-height: 400px; overflow: auto">
               <table class="table">
                 <thead>
-                <tr>
-                  <th>Id</th>
-                  <th>Prodotto</th>
-                  <th></th>
-                </tr>
+                  <tr>
+                    <th>Id</th>
+                    <th>Prodotto</th>
+                    <th></th>
+                  </tr>
                 </thead>
                 <tbody>
-                <tr th:each="p : ${prezzati}">
-                  <td th:text="${p.id}">0</td>
-                  <td th:text="${p.nomeProdotto}">Nome Prodotto</td>
-                  <td><a href="homepageImpiegato.html.html" th:href="@{/dettagliPreventivo(id=${p.id})}">Dettagli</a></td>
-                </tr>
+                  <tr th:each="p : ${prezzati}">
+                    <td th:text="${p.id}">0</td>
+                    <td th:text="${p.nomeProdotto}">Nome Prodotto</td>
+                    <td><a href="homepageImpiegato.html.html" th:href="@{/dettagliPreventivo(id=${p.id})}">Dettagli</a></td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -70,14 +70,14 @@
             <div class="row mb-3 mt-3 justify-content-end">
               <h4 style="text-align: center">Preventivi da prezzare</h4>
             </div>
-            <div class="row mb-3 d-flex justify-content-end">
+            <div class="row mb-3 d-flex justify-content-end" style="max-height: 400px; overflow: auto">
               <table class="table">
                 <thead>
-                <tr>
-                  <th>Id</th>
-                  <th>Prodotto</th>
-                  <th></th>
-                </tr>
+                  <tr>
+                    <th>Id</th>
+                    <th>Prodotto</th>
+                    <th></th>
+                  </tr>
                 </thead>
                 <tbody>
                   <tr th:each="preventivo : ${daPrezzare}">
