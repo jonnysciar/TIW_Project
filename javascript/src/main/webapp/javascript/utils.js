@@ -13,6 +13,11 @@ function setLogout() {
     });
 }
 
+function validateEmail(input) {
+    const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    return !!input.value.match(validRegex);
+}
+
 function makeCall(method, url, formElement, cback, reset = true) {
     const request = new XMLHttpRequest(); // visible by closure
     request.onreadystatechange = function() {

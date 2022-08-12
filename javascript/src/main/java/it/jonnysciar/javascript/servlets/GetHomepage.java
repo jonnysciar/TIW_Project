@@ -1,7 +1,6 @@
 package it.jonnysciar.javascript.servlets;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import it.jonnysciar.javascript.beans.Preventivo;
 import it.jonnysciar.javascript.beans.Prodotto;
 import it.jonnysciar.javascript.beans.Utente;
@@ -16,7 +15,6 @@ import java.io.IOException;
 import java.io.Serial;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Objects;
 
 @WebServlet("/getHomepage")
 public class GetHomepage extends DBServlet {
@@ -25,7 +23,7 @@ public class GetHomepage extends DBServlet {
     private static final long serialVersionUID = 1L;
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setCharacterEncoding("UTF-8");
         Gson gson = new Gson();
         Utente utente = (Utente) request.getSession().getAttribute("user");
@@ -42,7 +40,9 @@ public class GetHomepage extends DBServlet {
                 p.setOpzioni(prodottoDAO.getAllOpzioniById(p.getId()));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().println("Qualcosa è andato storto!");
+            return;
         }
         response.setStatus(HttpServletResponse.SC_OK);
         response.setContentType("application/json");
