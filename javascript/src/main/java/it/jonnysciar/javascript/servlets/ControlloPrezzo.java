@@ -1,11 +1,8 @@
 package it.jonnysciar.javascript.servlets;
 
-import it.jonnysciar.javascript.beans.Opzione;
 import it.jonnysciar.javascript.beans.Preventivo;
-import it.jonnysciar.javascript.beans.Prodotto;
 import it.jonnysciar.javascript.beans.Utente;
 import it.jonnysciar.javascript.dao.PreventivoDAO;
-import it.jonnysciar.javascript.dao.ProdottoDAO;
 
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 
 @WebServlet("/CheckPrice")
 @MultipartConfig
@@ -34,30 +30,25 @@ public class ControlloPrezzo extends DBServlet {
                 throw new SQLException();
             }
         } catch (SQLException | NumberFormatException e) {
-
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().println("Errore nella richiesta!");
             return;
         }
 
         if (prezzo <= 0) {
-
-            Prodotto prodotto;
-            List<Opzione> opzioni;
-            try {
-                opzioni = preventivoDAO.getAllOpzioniById(preventivo.getId());
-                prodotto = new ProdottoDAO(connection).getByCodice(preventivo.getCodice_prodotto());
-            } catch (SQLException e) {
-
-                return;
-            }
-
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().println("Il prezzo deve essere maggiore di 0!");
         } else {
+
             try {
                 preventivoDAO.updatePreventivoById(preventivo.getId(), utente.getId(), prezzo);
             } catch (SQLException e) {
-
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                response.getWriter().println("Qualcosa è andato storto!");
                 return;
             }
-            response.sendRedirect(getServletContext().getContextPath() + "/homepageImpiegato");
+
+            response.setStatus(HttpServletResponse.SC_OK);
         }
     }
 }

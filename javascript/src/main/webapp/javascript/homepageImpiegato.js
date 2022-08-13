@@ -1,7 +1,11 @@
 /**
  * User homepage management
  */
-(function() { // avoid variables ending up in the global scope
+(function() {
+   setupPage();
+}());
+
+function setupPage() { // avoid variables ending up in the global scope
 
    const utente = JSON.parse(sessionStorage.getItem("user"));
 
@@ -15,13 +19,15 @@
             const array = JSON.parse(message);
             setPreventiviPrezzati(array[0]);
             setPreventiviDaPrezzare(array[1]);
-         } else {
+         } else if (request.status === 400 || request.status ===500) {
             document.getElementById("errorMsg").textContent = message;
+         } else {
+            document.getElementById("errorMsg").textContent = "Server error!"
          }
       }
    });
 
-})();
+}
 
 function setPreventiviPrezzati(preventivi) {
    const tbody = document.querySelector("#pricedTable tbody");
@@ -77,7 +83,7 @@ function setPreventiviDaPrezzare(preventivi) {
                   this.mainDiv.style.filter = "blur(4px)";
                   this.detailDiv.classList.remove("d-none");
                   this.mainDiv.style.pointerEvents = "none";
-                  setToBePriced(JSON.parse(message));
+                  setPopupPrevDaPrezzare(JSON.parse(message));
                } else if (request.status === 400 || request.status === 500) {
                   errorMsg.textContent = message;
                } else {
@@ -97,7 +103,7 @@ function setPreventiviDaPrezzare(preventivi) {
    });
 }
 
-function setToBePriced(array) {
+function setPopupPrevDaPrezzare(array) {
    const prodotto = array[0];
    const preventivo = array[1];
 
@@ -132,6 +138,8 @@ function setToBePriced(array) {
    col.style.color = "black";
    statusHead.appendChild(col);
 
+   document.getElementById("preventivoId").value = preventivo.id;
+
    //Create input field
    let row = document.createElement("tr");
    col = document.createElement("td");
@@ -161,10 +169,24 @@ function setToBePriced(array) {
 
       const form = this.closest("form");
       let price = parseInt(input.value);
+      const errorMsg2 = document.getElementById("errorMsg2");
+
       if (!isNaN(price) && price > 0) {
-         console.log("Server call");
+         makeCall("POST", "CheckPrice", form, function (request) {
+            if (request.readyState === XMLHttpRequest.DONE) {
+               const message = request.responseText;
+               if (request.status === 200) {
+                  document.getElementById("detailButton").click();
+                  setupPage();
+               } else if (request.status === 400 || request.status ===500) {
+                  errorMsg2.textContent = message;
+               } else {
+                  errorMsg2.textContent = "Server error!"
+               }
+            }
+         }, false);
       } else {
-         document.getElementById("errorMsg2").textContent = "Il prezzo inserito non è valido!";
+         errorMsg2.textContent = "Il prezzo inserito non è valido!";
       }
    });
 

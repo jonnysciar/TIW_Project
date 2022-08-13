@@ -4,7 +4,6 @@
 (function() { // avoid variables ending up in the global scope
 
    const utente = JSON.parse(sessionStorage.getItem("user"));
-   let prodotti;
 
    document.getElementById("welcomeText").textContent = "Benvenuto " + utente.nome +", ecco cosa puoi fare:";
    setLogout();
@@ -14,11 +13,12 @@
          const message = request.responseText;
          if (request.status === 200) {
             const array = JSON.parse(message);
-            prodotti = array[0];
-            setProdotti(prodotti);
+            setProdotti(array[0]);
             setPreventivi(array[1]);
-         } else {
+         } else if (request.status === 400 || request.status ===500) {
             document.getElementById("errorMsg").textContent = message;
+         } else {
+            document.getElementById("errorMsg").textContent = "Server error!"
          }
       }
    });

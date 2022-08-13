@@ -7,6 +7,8 @@ function setLogout() {
                    sessionStorage.clear();
                    console.log("Client session cleared");
                    window.location.href = "./";
+               } else {
+                   document.getElementById("errorMsg").textContent = "Qualcosa è andato storto!"
                }
            }
        });
@@ -69,7 +71,7 @@ function rowOnClick(event) {
                     this.mainDiv.style.filter = "blur(4px)";
                     this.detailDiv.classList.remove("d-none");
                     this.mainDiv.style.pointerEvents = "none";
-                    setPrevDetails(JSON.parse(message));
+                    setPopupDettagliPrev(JSON.parse(message));
                 } else if (request.status === 400 || request.status === 500) {
                     errorMsg.textContent = message;
                 } else {
@@ -82,7 +84,7 @@ function rowOnClick(event) {
     }
 }
 
-function setPrevDetails(array) {
+function setPopupDettagliPrev(array) {
     const prodotto = array[0];
     const preventivo = array[1];
     let nomeImpiegato;
