@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <title>TIW Shop - Home Impiegato</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+  <script src="./javascript/utils.js" charset="utf-8" defer></script>
+  <script src="./javascript/homepageImpiegato.js" charset="utf-8" defer></script>
 </head>
 <body>
 
@@ -27,64 +29,138 @@
   </div>
 </nav>
 
-<div class="container mt-3">
-  <div class="row mt-3">
-    <div class="col d-flex justify-content-center">
-      <h3 th:text="'Benvenuto ' + ${name} + ', ecco i preventivi da gestire:'">
-        Benvenuto Impiegato, ecco i preventivi da gestire:
-      </h3>
-    </div>
-  </div>
-  <div class="row">
-    <div class="container">
+<div class="container">
+  <div class="row position-relative align-item-center justify-content-center">
+    <div class="container mt-3" id="mainDiv">
+      <div class="row mt-3">
+        <div class="col d-flex justify-content-center">
+          <h3 id="welcomeText">Benvenuto Impiegato, ecco i preventivi da gestire:</h3>
+        </div>
+      </div>
       <div class="row">
-        <div class="col d-flex justify-content-start">
-          <div class="container">
-            <div class="row mb-3 mt-3 justify-content-start">
-              <h4 style="text-align: center">Preventivi già prezzati</h4>
+        <div class="container">
+          <div class="row">
+            <div class="col d-flex justify-content-center">
+              <div class="container">
+                <div class="row mb-3 mt-3 justify-content-center">
+                  <h4 style="text-align: center">Preventivi già prezzati</h4>
+                </div>
+                <div class="row mb-3 d-flex justify-content-center align-items-center">
+                  <table class="table" id="pricedTable" style="width: auto">
+                    <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Prodotto</th>
+                      <th>Stato</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                      <td>0</td>
+                      <td>Nome Prodotto</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
-            <div class="row mb-3 d-flex justify-content-start">
-              <table class="table">
+            <div class="col d-flex justify-content-center">
+            </div>
+            <div class="col d-flex justify-content-center">
+              <div class="container">
+                <div class="row mb-3 mt-3 justify-content-center">
+                  <h4 style="text-align: center">Preventivi da prezzare</h4>
+                </div>
+                <div class="row mb-3 d-flex justify-content-center align-items-center">
+                  <table class="table" id="toBePricedTable" style="width: auto">
+                    <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>Prodotto</th>
+                      <th>Stato</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>0</td>
+                        <td>Nome Prodotto</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-3 d-flex align-items-center justify-content-center">
+        <p id="errorMsg" style="text-align: center; color: red"></p>
+      </div>
+    </div>
+
+    <div class="container mt-3 position-absolute rounded d-none" style="background: whitesmoke; width: auto; filter: drop-shadow(0 0 3px black);" id="detailDiv">
+      <div class="row mt-3">
+        <div class="col-sm-1 d-flex justify-content-center">
+        </div>
+        <div class="col d-flex justify-content-center">
+          <h4 id="detailText">Ecco i dettagli del preventivo richiesto:</h4>
+        </div>
+        <div class="col-sm-1 d-flex justify-content-center">
+          <button type="button" class="btn-close" aria-label="Close" id="detailButton"></button>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col d-flex justify-content-center">
+          <h5 id="detailPrevNumber">Preventivo numero: #1234</h5>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="container d-flex justify-content-center">
+          <div class="row">
+            <div class="col col-sm-auto">
+              <table class="table text-center table-borderless">
                 <thead>
                 <tr>
-                  <th>Id</th>
-                  <th>Prodotto</th>
-                  <th></th>
+                  <th style="text-align: center" class="mt-1" id="detailProductName">Nome prodotto</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="p : ${prezzati}">
-                  <td th:text="${p.id}">0</td>
-                  <td th:text="${p.nomeProdotto}">Nome Prodotto</td>
-                  <td><a href="homepageImpiegato.html.html" th:href="@{/dettagliPreventivo(id=${p.id})}">Dettagli</a></td>
+                <tr>
+                  <td><img src="./images/placeholder.jpg" style="width: 200px" class="rounded mx-auto d-block" id="detailImg"></td>
                 </tr>
                 </tbody>
               </table>
             </div>
-          </div>
-        </div>
-        <div class="col d-flex justify-content-center">
-        </div>
-        <div class="col d-flex justify-content-end">
-          <div class="container">
-            <div class="row mb-3 mt-3 justify-content-end">
-              <h4 style="text-align: center">Preventivi da prezzare</h4>
-            </div>
-            <div class="row mb-3 d-flex justify-content-end">
-              <table class="table">
+            <div class="col col-sm-auto">
+              <table class="table text-center" id="detailOptionTable">
                 <thead>
                 <tr>
-                  <th>Id</th>
-                  <th>Prodotto</th>
-                  <th></th>
+                  <th>Opzione</th>
+                  <th>Tipo</th>
                 </tr>
                 </thead>
                 <tbody>
-                  <tr th:each="preventivo : ${daPrezzare}">
-                    <td th:text="${preventivo.id}">0</td>
-                    <td th:text="${preventivo.nomeProdotto}">Nome Prodotto</td>
-                    <td><a href="homepageImpiegato.html.html" th:href="@{/prezzaPreventivo(id=${preventivo.id})}">Prezza</a></td>
-                  </tr>
+                <tr>
+                  <td>Opzione 1</td>
+                  <td>in offerta</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col col-sm-auto">
+              <table class="table text-center" id="detailStatusTable">
+                <thead>
+                <tr>
+                  <th style="color: green">Completato</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <td>Prezzo: 1234</td>
+                </tr>
+                <tr>
+                  <td>Username impiegato: pippo</td>
+                </tr>
                 </tbody>
               </table>
             </div>
@@ -92,6 +168,7 @@
         </div>
       </div>
     </div>
+
   </div>
 </div>
 

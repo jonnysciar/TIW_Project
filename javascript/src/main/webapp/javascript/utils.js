@@ -48,27 +48,31 @@ function detailOnClick(row) {
     });
 
     row.style.cursor = "pointer";
-    row.addEventListener("click", function(event) {
-        event.preventDefault();
+    row.mainDiv = mainDiv;
+    row.detailDiv = detailDiv;
+    row.addEventListener("click", rowOnClick);
+}
 
-        const url = "dettagliPreventivo?id=" + row.id.substring(3,row.id.length);
-        makeCall("GET", url, null,function(request) {
-            if (request.readyState === XMLHttpRequest.DONE) {
-                const message = request.responseText;
-                const errorMsg = document.getElementById("errorMsg");
-                errorMsg.textContent = "";
-                if (request.status === 200) {
-                    mainDiv.style.filter = "blur(4px)";
-                    detailDiv.classList.remove("d-none");
-                    mainDiv.style.pointerEvents = "none";
-                    setPrevDetails(JSON.parse(message));
-                } else if (request.status === 400 || request.status ===500) {
-                    errorMsg.textContent = message;
-                } else {
-                    errorMsg.textContent = "Server error!"
-                }
+function rowOnClick(event) {
+    event.preventDefault();
+
+    const url = "dettagliPreventivo?id=" + this.id.substring(3,this.id.length);
+    makeCall("GET", url, null,function(request) {
+        if (request.readyState === XMLHttpRequest.DONE) {
+            const message = request.responseText;
+            const errorMsg = document.getElementById("errorMsg");
+            errorMsg.textContent = "";
+            if (request.status === 200) {
+                this.mainDiv.style.filter = "blur(4px)";
+                this.detailDiv.classList.remove("d-none");
+                this.mainDiv.style.pointerEvents = "none";
+                setPrevDetails(JSON.parse(message));
+            } else if (request.status === 400 || request.status === 500) {
+                errorMsg.textContent = message;
+            } else {
+                errorMsg.textContent = "Server error!"
             }
-        });
+        }
     });
 }
 
