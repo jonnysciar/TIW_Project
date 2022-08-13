@@ -29,70 +29,147 @@
     </div>
   </nav>
 
-  <div class="container mt-3">
-    <div class="row mt-3">
-      <div class="col d-flex justify-content-center">
-        <h3 id="welcomeText">Benvenuto Utente, ecco cosa puoi fare:</h3>
-      </div>
-    </div>
-    <div class="row">
-      <div class="container">
+  <div class="container">
+    <div class="row position-relative align-item-center justify-content-center">
+      <div class="container mt-3" id="mainDiv">
+        <div class="row mt-3">
+          <div class="col d-flex justify-content-center">
+            <h3 id="welcomeText">Benvenuto Utente, ecco cosa puoi fare:</h3>
+          </div>
+        </div>
         <div class="row">
-          <div class="col d-flex justify-content-start">
-            <form id="form">
-              <div class="row mb-3 mt-3">
-                <h4 style="text-align: center">Richiedi il tuo preventivo!</h4>
+          <div class="container">
+            <div class="row">
+              <div class="col d-flex justify-content-start">
+                <form id="form">
+                  <div class="row mb-3 mt-3">
+                    <h4 style="text-align: center">Richiedi il tuo preventivo!</h4>
+                  </div>
+                  <div class="row mb-3 d-flex align-items-center justify-content-center">
+                    <select class="form-control" name="selectProduct" id="selectProduct">
+                      <option disabled="disabled" selected value="">Scegli un prodotto</option>
+                    </select>
+                  </div>
+                  <div class="row mb-3 d-flex align-items-center justify-content-center d-none">
+                    <img style="width: 200px" class="rounded mx-auto d-block" src="./images/placeholder.jpg" id="productImg" alt="foto prodotto">
+                  </div>
+                  <div class="row mb-3 d-flex align-items-center justify-content-center d-none">
+                    <table class="table" id="optionTable">
+                      <tbody>
+                        <tr>
+                          <td>opzione1</td>
+                          <td>normale</td>
+                          <td><input type="checkbox" value="" name="checkbox"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="d-flex justify-content-center d-none">
+                    <button type="submit" class="btn btn-warning" id="preventivoButton">Richiedi preventivo</button>
+                  </div>
+                </form>
               </div>
-              <div class="row mb-3 d-flex align-items-center justify-content-center">
-                <select class="form-control" name="selectProduct" id="selectProduct">
-                  <option disabled="disabled" selected value="">Scegli un prodotto</option>
-                </select>
+              <div class="col d-flex justify-content-center">
               </div>
-              <div class="row mb-3 d-flex align-items-center justify-content-center d-none">
-                <img style="width: 200px" class="rounded mx-auto d-block" src="./images/placeholder.jpg" id="productImg" alt="foto prodotto">
+              <div class="col d-flex justify-content-end">
+                <div class="container">
+                  <div class="row mb-3 mt-3 justify-content-end">
+                    <h4 style="text-align: center">Visualizza i dettagli dei preventivi richiesti</h4>
+                  </div>
+                  <div class="row mb-3 d-flex justify-content-end" style="max-height: 400px; overflow: auto">
+                    <table class="table" id="preventiviTable">
+                      <thead>
+                        <tr>
+                          <th>Id</th>
+                          <th>Prodotto</th>
+                          <th>Stato</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr style="cursor: pointer">
+                          <td>0</td>
+                          <td>Nome Prodotto</td>
+                          <td>
+                            <p style="color: green">Completato</p>
+                            <p>Prezzo: 1234</p>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
-              <div class="row mb-3 d-flex align-items-center justify-content-center d-none">
-                <table class="table" id="optionTable">
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3 d-flex align-items-center justify-content-center">
+          <p id="errorMsg" style="text-align: center; color: red"></p>
+        </div>
+      </div>
+
+      <div class="container mt-3 position-absolute rounded d-none" style="background: whitesmoke; width: auto; filter: drop-shadow(0 0 3px black);" id="detailDiv">
+        <div class="row mt-3">
+          <div class="col-sm-1 d-flex justify-content-center">
+          </div>
+          <div class="col d-flex justify-content-center">
+            <h4>Ecco i dettagli del preventivo richiesto:</h4>
+          </div>
+          <div class="col-sm-1 d-flex justify-content-center">
+            <button type="button" class="btn-close" aria-label="Close" id="detailButton"></button>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col d-flex justify-content-center">
+            <h5 id="detailPrevNumber">Preventivo numero: #1234</h5>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="container d-flex justify-content-center">
+            <div class="row">
+              <div class="col col-sm-auto">
+                <table class="table text-center table-borderless">
+                  <thead>
+                  <tr>
+                    <th style="text-align: center" class="mt-1" id="detailProductName">Nome prodotto</th>
+                  </tr>
+                  </thead>
                   <tbody>
-                    <tr>
-                      <td>opzione1</td>
-                      <td>normale</td>
-                      <td><input type="checkbox" value="" name="checkbox"></td>
-                    </tr>
+                  <tr>
+                    <td><img src="./images/placeholder.jpg" style="width: 200px" class="rounded mx-auto d-block" id="detailImg"></td>
+                  </tr>
                   </tbody>
                 </table>
               </div>
-              <div class="d-flex justify-content-center d-none">
-                <button type="submit" class="btn btn-warning" id="preventivoButton">Richiedi preventivo</button>
-              </div>
-            </form>
-          </div>
-          <div class="col d-flex justify-content-center">
-          </div>
-          <div class="col d-flex justify-content-end">
-            <div class="container">
-              <div class="row mb-3 mt-3 justify-content-end">
-                <h4 style="text-align: center">Visualizza i dettagli dei preventivi richiesti</h4>
-              </div>
-              <div class="row mb-3 d-flex justify-content-end" style="max-height: 400px; overflow: auto">
-                <table class="table" id="preventiviTable">
+              <div class="col col-sm-auto">
+                <table class="table text-center" id="detailOptionTable">
                   <thead>
-                    <tr>
-                      <th>Id</th>
-                      <th>Prodotto</th>
-                      <th>Stato</th>
-                      <th></th>
-                    </tr>
+                  <tr>
+                    <th>Opzione</th>
+                    <th>Tipo</th>
+                  </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>0</td>
-                      <td>Nome Prodotto</td>
-                      <td>
-                        <p style="color: green">Completato</p>
-                        <p>prezzo: 1234</p>
-                      </td>
-                    </tr>
+                  <tr>
+                    <td>Opzione 1</td>
+                    <td>in offerta</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col col-sm-auto">
+                <table class="table text-center" id="detailStatusTable">
+                  <thead>
+                  <tr>
+                    <th style="color: green">Completato</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td>Prezzo: 1234</td>
+                  </tr>
+                  <tr>
+                    <td>Username impiegato: pippo</td>
+                  </tr>
                   </tbody>
                 </table>
               </div>
@@ -100,9 +177,6 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="row mb-3 d-flex align-items-center justify-content-center">
-      <p id="errorMsg" style="text-align: center; color: red"></p>
     </div>
   </div>
 

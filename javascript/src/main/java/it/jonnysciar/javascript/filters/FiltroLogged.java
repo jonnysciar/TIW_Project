@@ -18,7 +18,7 @@ public class FiltroLogged implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse res = (HttpServletResponse) servletResponse;
 
-        String loginpath = req.getServletContext().getContextPath();
+        String loginpath = req.getServletContext().getContextPath() + "/login";
         HttpSession session = req.getSession();
 
         if (session.isNew() || session.getAttribute("user") == null) {

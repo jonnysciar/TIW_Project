@@ -30,6 +30,7 @@ function setProdotti(prodotti) {
    const img = document.getElementById("productImg");
    const table = document.getElementById("optionTable");
    const button = document.getElementById("preventivoButton");
+   const errorMsg = document.getElementById("errorMsg");
 
    prodotti.forEach((prodotto) => {
       let option = document.createElement("option");
@@ -40,6 +41,7 @@ function setProdotti(prodotti) {
 
    selectProduct.addEventListener("change", function(event) {
       event.preventDefault();
+      errorMsg.textContent = "";
       const prodotto = prodotti[this.value - 1];
       img.src = "./images/" + prodotto.imgPath;
       const tbody = table.getElementsByTagName("tbody")[0];
@@ -72,7 +74,6 @@ function setProdotti(prodotti) {
       event.preventDefault();
       this.blur();
       const form = this.closest("form");
-      const errorMsg = document.getElementById("errorMsg");
       errorMsg.textContent = "";
       if (oneOptionChecked(form.getElementsByTagName("input"))) {
          makeCall("POST", "CheckPreventivo", form, function (request) {
@@ -84,8 +85,10 @@ function setProdotti(prodotti) {
                   button.closest("div").classList.add("d-none");
                   form.reset();
                   setPreventivi(JSON.parse(message));
-               } else {
+               } else if (request.status === 400 || request.status ===500) {
                   errorMsg.textContent = message;
+               } else {
+                  errorMsg.textContent = "Server error!"
                }
             }
          }, false);
@@ -103,6 +106,7 @@ function setPreventivi(preventivi) {
    preventivi.forEach((preventivo) => {
       let row = document.createElement("tr");
       row.id = "row" + preventivo.id;
+      detailOnClick(row);
       fields.forEach((field) => {
          let col = document.createElement("td");
          if (field !== "prezzo") {

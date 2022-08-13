@@ -18,10 +18,10 @@ function validateEmail(input) {
     return !!input.value.match(validRegex);
 }
 
-function makeCall(method, url, formElement, cback, reset = true) {
+function makeCall(method, url, formElement, callback, reset = true) {
     const request = new XMLHttpRequest(); // visible by closure
     request.onreadystatechange = function() {
-        cback(request)
+        callback(request)
     }; // closure
     request.open(method, url);
     if (formElement == null) {
@@ -31,5 +31,104 @@ function makeCall(method, url, formElement, cback, reset = true) {
     }
     if (formElement !== null && reset === true) {
         formElement.reset();
+    }
+}
+
+function detailOnClick(row) {
+    const detailDiv = document.getElementById("detailDiv");
+    const mainDiv = document.getElementById("mainDiv");
+    const detailButton = document.getElementById("detailButton");
+
+    detailButton.addEventListener("click", function(event) {
+        event.preventDefault();
+        this.blur();
+        mainDiv.style.filter = "blur(0px)";
+        detailDiv.classList.add("d-none");
+        mainDiv.style.pointerEvents = "auto";
+    });
+
+    row.style.cursor = "pointer";
+    row.addEventListener("click", function(event) {
+        event.preventDefault();
+
+        const url = "dettagliPreventivo?id=" + row.id.substring(3,row.id.length);
+        makeCall("GET", url, null,function(request) {
+            if (request.readyState === XMLHttpRequest.DONE) {
+                const message = request.responseText;
+                const errorMsg = document.getElementById("errorMsg");
+                errorMsg.textContent = "";
+                if (request.status === 200) {
+                    mainDiv.style.filter = "blur(4px)";
+                    detailDiv.classList.remove("d-none");
+                    mainDiv.style.pointerEvents = "none";
+                    setPrevDetails(JSON.parse(message));
+                } else if (request.status === 400 || request.status ===500) {
+                    errorMsg.textContent = message;
+                } else {
+                    errorMsg.textContent = "Server error!"
+                }
+            }
+        });
+    });
+}
+
+function setPrevDetails(array) {
+    const prodotto = array[0];
+    const preventivo = array[1];
+    let nomeImpiegato;
+    if (array.length !== 3) {
+        nomeImpiegato = null;
+    } else {
+        nomeImpiegato = array[2];
+    }
+
+    const optionTbody = document.getElementById("detailOptionTable").getElementsByTagName("tbody")[0];
+    const statusTbodyTable = document.getElementById("detailStatusTable");
+
+    optionTbody.innerHTML = "";
+
+    document.getElementById("detailProductName").textContent = prodotto.nome;
+    document.getElementById("detailImg").src = "./images/" + prodotto.imgPath;
+    document.getElementById("detailPrevNumber").textContent = "Preventivo numero: #" + preventivo.id;
+
+    preventivo.opzioni.forEach((opzione) => {
+        let row = document.createElement("tr");
+        let colName = document.createElement("td");
+        let colType = document.createElement("td");
+        colName.textContent = opzione.nome;
+        colType.textContent = opzione.tipo.toLowerCase().replace("_", " ");
+        row.appendChild(colName);
+        row.appendChild(colType);
+        optionTbody.appendChild(row);
+    });
+
+    const statusHead = statusTbodyTable.getElementsByTagName("thead")[0].getElementsByTagName("tr")[0];
+    const statusBody = statusTbodyTable.getElementsByTagName("tbody")[0];
+    statusHead.innerHTML = "";
+    statusBody.innerHTML = ""
+
+    if (nomeImpiegato !== null) {
+        let col = document.createElement("th");
+        col.textContent = "Completato";
+        col.style.color = "green";
+        statusHead.appendChild(col);
+
+        let row = document.createElement("tr");
+        col = document.createElement("td");
+        col.textContent = "Prezzo: " + preventivo.prezzo;
+        row.appendChild(col);
+        statusBody.appendChild(row);
+
+        row = document.createElement("tr");
+        col = document.createElement("td");
+        col.textContent = "Username impiegato: " + nomeImpiegato;
+        row.appendChild(col);
+        statusBody.appendChild(row);
+
+    } else {
+        const col = document.createElement("th");
+        col.textContent = "Da completare";
+        col.style.color = "red";
+        statusHead.appendChild(col);
     }
 }

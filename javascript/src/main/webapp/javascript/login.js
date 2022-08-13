@@ -19,8 +19,10 @@
                       } else {
                          window.location.href = "homepageUtente";
                       }
-                   } else {
+                   } else if (request.status === 400 || request.status ===500) {
                       document.getElementById("errorMsg").textContent = message;
+                   } else {
+                      document.getElementById("errorMsg").textContent = "Server error!"
                    }
                 }
              }

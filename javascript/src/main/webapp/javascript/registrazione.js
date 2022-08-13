@@ -23,8 +23,10 @@
                       if (request.status === 200) {
                          document.getElementById("signupForm").classList.add("d-none")
                          document.getElementById("successMessage").classList.remove("d-none");
-                      } else {
+                      } else if (request.status === 400 || request.status ===500) {
                          errorMsg.textContent = message;
+                      } else {
+                         errorMsg.textContent = "Server error!"
                       }
                    }
                 }, false

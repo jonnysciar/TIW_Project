@@ -20,7 +20,7 @@ public class FiltroUtente implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse res = (HttpServletResponse) servletResponse;
 
-        String loginpath = req.getServletContext().getContextPath();
+        String loginpath = req.getServletContext().getContextPath() + "/login";
         HttpSession session = req.getSession();
 
         Utente utente = (Utente) session.getAttribute("user");
