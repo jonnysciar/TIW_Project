@@ -7,6 +7,7 @@ import it.jonnysciar.javascript.beans.Utente;
 import it.jonnysciar.javascript.dao.PreventivoDAO;
 import it.jonnysciar.javascript.dao.ProdottoDAO;
 
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,10 +16,12 @@ import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet("/CheckPrice")
+@MultipartConfig
 public class ControlloPrezzo extends DBServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setCharacterEncoding("UTF-8");
         Utente utente = (Utente) request.getSession().getAttribute("user");
 
         PreventivoDAO preventivoDAO = new PreventivoDAO(connection);
@@ -31,7 +34,7 @@ public class ControlloPrezzo extends DBServlet {
                 throw new SQLException();
             }
         } catch (SQLException | NumberFormatException e) {
-            setupPageError(request, response);
+
             return;
         }
 
@@ -43,7 +46,7 @@ public class ControlloPrezzo extends DBServlet {
                 opzioni = preventivoDAO.getAllOpzioniById(preventivo.getId());
                 prodotto = new ProdottoDAO(connection).getByCodice(preventivo.getCodice_prodotto());
             } catch (SQLException e) {
-                setupPageError(request, response);
+
                 return;
             }
 
@@ -51,16 +54,10 @@ public class ControlloPrezzo extends DBServlet {
             try {
                 preventivoDAO.updatePreventivoById(preventivo.getId(), utente.getId(), prezzo);
             } catch (SQLException e) {
-                setupPageError(request, response);
+
                 return;
             }
             response.sendRedirect(getServletContext().getContextPath() + "/homepageImpiegato");
         }
-    }
-
-    private void setupPageError(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String path = "/templates/prezzaPreventivo.html";
-        response.setCharacterEncoding("UTF-8");
-
     }
 }

@@ -56,24 +56,30 @@ function detailOnClick(row) {
 function rowOnClick(event) {
     event.preventDefault();
 
-    const url = "dettagliPreventivo?id=" + this.id.substring(3,this.id.length);
-    makeCall("GET", url, null,function(request) {
-        if (request.readyState === XMLHttpRequest.DONE) {
-            const message = request.responseText;
-            const errorMsg = document.getElementById("errorMsg");
-            errorMsg.textContent = "";
-            if (request.status === 200) {
-                this.mainDiv.style.filter = "blur(4px)";
-                this.detailDiv.classList.remove("d-none");
-                this.mainDiv.style.pointerEvents = "none";
-                setPrevDetails(JSON.parse(message));
-            } else if (request.status === 400 || request.status === 500) {
-                errorMsg.textContent = message;
-            } else {
-                errorMsg.textContent = "Server error!"
+    let id = parseInt(this.id.substring(3,this.id.length));
+    const errorMsg = document.getElementById("errorMsg");
+
+    if (!isNaN(id)) {
+        const url = "dettagliPreventivo?id=" + this.id.substring(3, this.id.length);
+        makeCall("GET", url, null, function (request) {
+            if (request.readyState === XMLHttpRequest.DONE) {
+                const message = request.responseText;
+                errorMsg.textContent = "";
+                if (request.status === 200) {
+                    this.mainDiv.style.filter = "blur(4px)";
+                    this.detailDiv.classList.remove("d-none");
+                    this.mainDiv.style.pointerEvents = "none";
+                    setPrevDetails(JSON.parse(message));
+                } else if (request.status === 400 || request.status === 500) {
+                    errorMsg.textContent = message;
+                } else {
+                    errorMsg.textContent = "Server error!";
+                }
             }
-        }
-    });
+        });
+    } else {
+        errorMsg.textContent = "Errore nella richiesta!";
+    }
 }
 
 function setPrevDetails(array) {
@@ -88,6 +94,7 @@ function setPrevDetails(array) {
 
     const optionTbody = document.getElementById("detailOptionTable").getElementsByTagName("tbody")[0];
     const statusTbodyTable = document.getElementById("detailStatusTable");
+    statusTbodyTable.classList.remove("table-borderless");
 
     optionTbody.innerHTML = "";
 

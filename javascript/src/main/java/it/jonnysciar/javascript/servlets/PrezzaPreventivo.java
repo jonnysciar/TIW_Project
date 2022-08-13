@@ -1,6 +1,6 @@
 package it.jonnysciar.javascript.servlets;
 
-import it.jonnysciar.javascript.beans.Opzione;
+import com.google.gson.Gson;
 import it.jonnysciar.javascript.beans.Preventivo;
 import it.jonnysciar.javascript.beans.Prodotto;
 import it.jonnysciar.javascript.dao.PreventivoDAO;
@@ -22,18 +22,21 @@ public class PrezzaPreventivo extends DBServlet {
         PreventivoDAO preventivoDAO = new PreventivoDAO(connection);
         Preventivo preventivo;
         Prodotto prodotto;
-        List<Opzione> opzioni;
         try {
             preventivo = preventivoDAO.getById(Integer.parseInt(request.getParameter("id")));
             if (preventivo == null || preventivo.getPrezzo() != 0 || preventivo.getId_impiegato() != 0) {
                 throw new SQLException();
             }
-            opzioni = preventivoDAO.getAllOpzioniById(preventivo.getId());
+            preventivo.setOpzioni(preventivoDAO.getAllOpzioniById(preventivo.getId()));
             prodotto = new ProdottoDAO(connection).getByCodice(preventivo.getCodice_prodotto());
         } catch (SQLException | NumberFormatException e) {
-            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().println("Errore nella richiesta!");
             return;
         }
 
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.setContentType("application/json");
+        response.getWriter().println(new Gson().toJson(List.of(prodotto, preventivo)));
     }
 }
