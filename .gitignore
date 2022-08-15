@@ -1,1 +1,12 @@
 apache-tomcat-9.0.65
+
+
+html_pure/.idea/
+html_pure/*.iws
+html_pure/*.iml
+html_pure/*.ipr
+
+javascript/.idea/
+javascript/*.iws
+javascript/*.iml
+javascript/*.ipr
