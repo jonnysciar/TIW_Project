@@ -8,7 +8,8 @@ html_pure/*.iws
 html_pure/*.iml
 html_pure/*.ipr
 html_pure/*.cmd
-
+html_pure/mvnw
+	
 
 
 javascript/.idea/
@@ -18,4 +19,5 @@ javascript/*.iws
 javascript/*.iml
 javascript/*.ipr
 javascript/*.cmd
+javascript/mvnw
 
