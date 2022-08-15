@@ -2,11 +2,20 @@ apache-tomcat-9.0.65
 
 
 html_pure/.idea/
+html_pure/target/
+html_pure/.mvn/
 html_pure/*.iws
 html_pure/*.iml
 html_pure/*.ipr
+html_pure/*.cmd
+
+
 
 javascript/.idea/
+javascript/target/
+javascript/.mvn/
 javascript/*.iws
 javascript/*.iml
 javascript/*.ipr
+javascript/*.cmd
+
