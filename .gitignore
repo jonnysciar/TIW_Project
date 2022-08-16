@@ -21,3 +21,5 @@ javascript/*.ipr
 javascript/*.cmd
 javascript/mvnw
 
+Documentazione/.*
+
