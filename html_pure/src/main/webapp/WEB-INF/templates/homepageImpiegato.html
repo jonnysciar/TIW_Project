@@ -49,6 +49,7 @@
                   <tr>
                     <th>Id</th>
                     <th>Prodotto</th>
+                    <th>Stato</th>
                     <th></th>
                   </tr>
                 </thead>
@@ -56,7 +57,8 @@
                   <tr th:each="p : ${prezzati}">
                     <td th:text="${p.id}">0</td>
                     <td th:text="${p.nomeProdotto}">Nome Prodotto</td>
-                    <td><a href="homepageImpiegato.html.html" th:href="@{/dettagliPreventivo(id=${p.id})}">Dettagli</a></td>
+                    <td style="color: green">Completato</td>
+                    <td><a href="homepageImpiegato.html" th:href="@{/dettagliPreventivo(id=${p.id})}">Dettagli</a></td>
                   </tr>
                 </tbody>
               </table>
@@ -76,6 +78,7 @@
                   <tr>
                     <th>Id</th>
                     <th>Prodotto</th>
+                    <th>Stato</th>
                     <th></th>
                   </tr>
                 </thead>
@@ -83,7 +86,8 @@
                   <tr th:each="preventivo : ${daPrezzare}">
                     <td th:text="${preventivo.id}">0</td>
                     <td th:text="${preventivo.nomeProdotto}">Nome Prodotto</td>
-                    <td><a href="homepageImpiegato.html.html" th:href="@{/prezzaPreventivo(id=${preventivo.id})}">Prezza</a></td>
+                    <td style="color: red">Da completare</td>
+                    <td><a href="homepageImpiegato.html" th:href="@{/prezzaPreventivo(id=${preventivo.id})}">Prezza</a></td>
                   </tr>
                 </tbody>
               </table>
