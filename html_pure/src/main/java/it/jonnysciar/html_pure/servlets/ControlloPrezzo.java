@@ -60,7 +60,7 @@ public class ControlloPrezzo extends ThymeLeafServlet {
             templateEngine.process(path, ctx, response.getWriter());
         } else {
             try {
-                preventivoDAO.updatePreventivoById(preventivo.getId(), utente.getId(), prezzo);
+                preventivoDAO.pricePreventivoById(preventivo.getId(), utente.getId(), prezzo);
             } catch (SQLException e) {
                 setupPageError(request, response);
                 return;

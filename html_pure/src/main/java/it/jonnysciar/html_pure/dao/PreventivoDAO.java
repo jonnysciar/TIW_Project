@@ -141,7 +141,7 @@ public class PreventivoDAO extends DAO{
         }
     }
 
-    public void updatePreventivoById(int id, int id_impiegato, int prezzo) throws SQLException {
+    public void pricePreventivoById(int id, int id_impiegato, int prezzo) throws SQLException {
         String query = "UPDATE preventivi SET id_impiegato = ?, prezzo = ? WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, id_impiegato);

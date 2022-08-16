@@ -41,7 +41,7 @@ public class ControlloPrezzo extends DBServlet {
         } else {
 
             try {
-                preventivoDAO.updatePreventivoById(preventivo.getId(), utente.getId(), prezzo);
+                preventivoDAO.pricePreventivoById(preventivo.getId(), utente.getId(), prezzo);
             } catch (SQLException e) {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 response.getWriter().println("Qualcosa è andato storto!");
