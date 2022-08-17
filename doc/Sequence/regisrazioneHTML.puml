@@ -1,0 +1,22 @@
+@startuml
+legend left
+ <back:#coral>   </back> Client side
+ <back:#aquamarine>   </back> Server side
+endlegend
+
+actor Utente as utente
+skinparam ParticipantBackgroundColor coral
+participant "registrazione.html" as registrazione
+
+utente -> registrazione: click submit
+
+skinparam ParticipantBackgroundColor aquamarine
+registrazione -> ControlloRegistrazione: POST(dati)
+ControlloRegistrazione -[#red]-> registrazione: [dati errore]
+registrazione -[#red]-> utente: Messaggio errore
+ControlloRegistrazione -> UtenteDao: addUtente(utente)
+UtenteDao --> ControlloRegistrazione: response
+ControlloRegistrazione -[#red]-> registrazione: [response == false]
+registrazione -[#red]-> utente: Messaggio errore
+ControlloRegistrazione --> utente: [response == true]\nredirect(login)
+@enduml

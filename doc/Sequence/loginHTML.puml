@@ -1,0 +1,23 @@
+@startuml
+legend left
+ <back:#coral>   </back> Client side
+ <back:#aquamarine>   </back> Server side
+endlegend
+
+actor Utente as utente
+skinparam ParticipantBackgroundColor coral
+participant "login.html" as login
+
+utente -> login: click submit
+
+skinparam ParticipantBackgroundColor aquamarine
+login -> ControlloLogin: POST(usr, pwd)
+ControlloLogin -[#red]-> login: [(usr || pwd) == null]
+login -[#red]-> utente: Messaggio errore
+ControlloLogin -> UtenteDao: checkCredentials(usr, pwd)
+UtenteDao --> ControlloLogin: utente
+ControlloLogin -[#red]-> login: [utente == null]
+login -[#red]-> utente: Messaggio errore
+ControlloLogin -> Session: [utente != null]
+ControlloLogin --> utente: redirect(homepage)
+@enduml
