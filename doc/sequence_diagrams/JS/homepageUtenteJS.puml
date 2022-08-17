@@ -1,0 +1,23 @@
+@startuml
+legend left
+ <back:#coral>   </back> Client side
+ <back:#aquamarine>   </back> Server side
+endlegend
+
+actor Utente as utente
+skinparam ParticipantBackgroundColor aquamarine
+participant Homepage
+participant ProdottoDAO
+participant PreventivoDAO
+skinparam ParticipantBackgroundColor coral
+participant "homepage.html" as homepage
+
+utente -> Homepage: GET()
+skinparam ParticipantBackgroundColor aquamarine
+Homepage -> ProdottoDAO: getAll()
+ProdottoDAO --> Homepage: prodotti
+Homepage -> PreventivoDAO: getAllByUserId(id)
+PreventivoDAO --> Homepage: preventivi
+Homepage -> homepage: ThymeLeaf Engine
+homepage -->utente: Pagina HTML
+@enduml

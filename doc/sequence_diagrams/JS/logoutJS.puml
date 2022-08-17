@@ -1,0 +1,17 @@
+@startuml
+legend left
+ <back:#coral>   </back> Client side
+ <back:#aquamarine>   </back> Server side
+endlegend
+
+actor Utente as utente
+skinparam ParticipantBackgroundColor coral
+participant "Pagina generica" as login
+
+utente -> login: click logout
+
+skinparam ParticipantBackgroundColor aquamarine
+login -> Logout: GET()
+Logout -> Session: invalidate()
+Logout --> utente: redirect(login)
+@enduml

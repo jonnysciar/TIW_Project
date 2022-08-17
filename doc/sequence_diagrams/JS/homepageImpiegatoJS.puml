@@ -7,17 +7,16 @@ endlegend
 actor Utente as utente
 skinparam ParticipantBackgroundColor aquamarine
 participant Homepage
-participant ProdottoDAO
 participant PreventivoDAO
 skinparam ParticipantBackgroundColor coral
 participant "homepage.html" as homepage
 
 utente -> Homepage: GET()
 skinparam ParticipantBackgroundColor aquamarine
-Homepage -> ProdottoDAO: getAll()
-ProdottoDAO --> Homepage: prodotti
-Homepage -> PreventivoDAO: getAllByUserId(id)
-ProdottoDAO --> Homepage: preventivi
+Homepage -> PreventivoDAO: getAllByImpiegatoId(id)
+PreventivoDAO --> Homepage: Preventivi gestiti 
+Homepage -> PreventivoDAO: getAllPreventiviNotManaged()
+PreventivoDAO --> Homepage: Preventivi da gestire
 Homepage -> homepage: ThymeLeaf Engine
 homepage -->utente: Pagina HTML
 @enduml

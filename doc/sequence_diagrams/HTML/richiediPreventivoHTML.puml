@@ -1,0 +1,32 @@
+@startuml
+legend left
+ <back:#coral>   </back> Client side
+ <back:#aquamarine>   </back> Server side
+endlegend
+
+actor Utente as utente
+skinparam ParticipantBackgroundColor aquamarine
+participant Homepage
+participant ProdottoDAO
+participant PreventivoDAO
+skinparam ParticipantBackgroundColor coral
+participant "homepage.html" as homepage
+
+utente -> Homepage: GET(productId)
+skinparam ParticipantBackgroundColor aquamarine
+Homepage -> ProdottoDAO: getByCodice(productId)
+ProdottoDAO --> Homepage: prodotto
+Homepage -> ProdottoDAO: getAllOpzioniById(productId)
+ProdottoDAO --> Homepage: opzioni
+Homepage -> PreventivoDAO: getAllByUserId(id)
+PreventivoDAO --> Homepage: preventivi
+Homepage -> homepage: ThymeLeaf Engine
+homepage -->utente: Pagina HTML
+
+utente -> homepage: Submit opzioni
+homepage -> ControlloPreventivo: POST(form)
+ControlloPreventivo -[#red]-> homepage: Errore in form
+homepage -[#red]-> utente: Messaggio errore
+ControlloPreventivo -> PreventivoDAO: addPreventivo()
+ControlloPreventivo --> utente: redirect(homepage) 
+@enduml
