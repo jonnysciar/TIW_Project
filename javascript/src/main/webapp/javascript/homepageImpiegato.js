@@ -17,8 +17,8 @@ function setupPage() { // avoid variables ending up in the global scope
          const message = request.responseText;
          if (request.status === 200) {
             const array = JSON.parse(message);
-            setPreventiviPrezzati(array[0]);
-            setPreventiviDaPrezzare(array[1]);
+            setPreventiviGestiti(array[0]);
+            setPreventiviDaGestire(array[1]);
          } else if (request.status === 400 || request.status ===500) {
             document.getElementById("errorMsg").textContent = message;
          } else {
@@ -29,7 +29,7 @@ function setupPage() { // avoid variables ending up in the global scope
 
 }
 
-function setPreventiviPrezzati(preventivi) {
+function setPreventiviGestiti(preventivi) {
    const tbody = document.querySelector("#pricedTable tbody");
    tbody.innerHTML = "";
    const fields = ["id", "nomeProdotto"];
@@ -55,7 +55,7 @@ function setPreventiviPrezzati(preventivi) {
    });
 }
 
-function setPreventiviDaPrezzare(preventivi) {
+function setPreventiviDaGestire(preventivi) {
    const tbody = document.querySelector("#toBePricedTable tbody");
    tbody.innerHTML = "";
    const fields = ["id", "nomeProdotto"];
