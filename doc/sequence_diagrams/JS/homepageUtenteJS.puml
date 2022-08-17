@@ -5,19 +5,23 @@ legend left
 endlegend
 
 actor Utente as utente
+skinparam ParticipantBackgroundColor coral
+participant "homepageUtente.html +\nhomepageUtente.js" as homepage
 skinparam ParticipantBackgroundColor aquamarine
-participant Homepage
+participant GetHomepage
 participant ProdottoDAO
 participant PreventivoDAO
-skinparam ParticipantBackgroundColor coral
-participant "homepage.html" as homepage
 
-utente -> Homepage: GET()
+
+utente -> homepage: GET()
 skinparam ParticipantBackgroundColor aquamarine
-Homepage -> ProdottoDAO: getAll()
-ProdottoDAO --> Homepage: prodotti
-Homepage -> PreventivoDAO: getAllByUserId(id)
-PreventivoDAO --> Homepage: preventivi
-Homepage -> homepage: ThymeLeaf Engine
-homepage -->utente: Pagina HTML
+homepage -> GetHomepage: AJAX GET()
+GetHomepage -> ProdottoDAO: getAll()
+ProdottoDAO --> GetHomepage: prodotti
+GetHomepage -> PreventivoDAO: getAllByUserId(id)
+PreventivoDAO --> GetHomepage: preventivi
+GetHomepage -> homepage: [prodotti, preventivi]\nstatus code 200
+homepage <- homepage: setProdotti(prodotti)
+homepage <- homepage: setPreventivi(preventivi)
+homepage --> utente: Aggiorna vista
 @enduml

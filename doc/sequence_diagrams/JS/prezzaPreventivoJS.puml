@@ -5,27 +5,27 @@ legend left
 endlegend
 
 actor Utente as utente
+skinparam ParticipantBackgroundColor coral
+participant "homepageImpiegato.html +\nhomepageImpiegato.js" as homepage
 skinparam ParticipantBackgroundColor aquamarine
 participant PrezzaPreventivo
 participant PreventivoDAO
-participant ProdottoDAO
-skinparam ParticipantBackgroundColor coral
-participant "prezzaPreventivo.html" as homepage
 
-utente -> PrezzaPreventivo: GET(id)
+
+utente -> homepage: click preventivo
 skinparam ParticipantBackgroundColor aquamarine
+homepage -> PrezzaPreventivo: AJAX GET(id)
 PrezzaPreventivo -> PreventivoDAO: getById(id)
 PreventivoDAO --> PrezzaPreventivo: preventivo
-PrezzaPreventivo -> PreventivoDAO: getAllOpzioniById(id)
-PreventivoDAO --> PrezzaPreventivo: opzioni
-PrezzaPreventivo -> homepage: ThymeLeaf Engine
-homepage -->utente: Pagina HTML
+PrezzaPreventivo --> homepage: [preventivo]\nstatus code 200
+homepage <- homepage: setPopupPrevDaPrezzare(preventivo)
+homepage --> utente: Aggiorna vista
 
-utente -> homepage: Submit prezzo
-homepage -> ControlloPrezzo: POST(prezzo)
-ControlloPrezzo -[#red]-> homepage: Errore in prezzo
-homepage -[#red]-> utente: Messaggio errore
-ControlloPrezzo -> PreventivoDAO: pricePreventivoById(id)
-ControlloPrezzo --> utente: redirect(homepage) 
-
+utente -> homepage: Inserisce prezzo
+homepage <- homepage: [prezzo > 0]
+homepage -> ControlloPrezzo: AJAX POST(id, prezzo)
+ControlloPrezzo -> PreventivoDAO: pricePreventivoById(id, prezzo)
+ControlloPrezzo --> homepage: status code 200
+homepage <- homepage: setupPage()
+homepage --> utente: Aggiorna vista
 @enduml

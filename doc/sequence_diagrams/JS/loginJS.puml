@@ -6,18 +6,23 @@ endlegend
 
 actor Utente as utente
 skinparam ParticipantBackgroundColor coral
-participant "login.html" as login
+participant "login.html +\nlogin.js" as login
 
 utente -> login: click submit
 
 skinparam ParticipantBackgroundColor aquamarine
-login -> ControlloLogin: POST(usr, pwd)
-ControlloLogin -[#red]-> login: [(usr || pwd) == null]
+login -> ControlloLogin: AJAX POST(usr, pwd)
+ControlloLogin -[#red]-> login: [(usr || pwd) == null]\nstatus code 400
 login -[#red]-> utente: Messaggio errore
 ControlloLogin -> UtenteDao: checkCredentials(usr, pwd)
 UtenteDao --> ControlloLogin: utente
-ControlloLogin -[#red]-> login: [utente == null]
+ControlloLogin -[#red]-> login: [utente == null]\nstatus code 400
 login -[#red]-> utente: Messaggio errore
 ControlloLogin -> Session: [utente != null]
-ControlloLogin --> utente: redirect(homepage)
+
+skinparam ParticipantBackgroundColor coral
+ControlloLogin --> login: status code 200
+login -> "Session Storage":setItem("user", utente)
+login <- login: window.location.href = "homepage"
+login --> utente: Aggiorna vista
 @enduml

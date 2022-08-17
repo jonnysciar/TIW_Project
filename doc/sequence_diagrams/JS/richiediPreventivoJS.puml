@@ -5,28 +5,25 @@ legend left
 endlegend
 
 actor Utente as utente
+skinparam ParticipantBackgroundColor coral
+participant "homepageUtente.html +\nhomepageUtente.js" as homepage
 skinparam ParticipantBackgroundColor aquamarine
-participant Homepage
+participant ControlloPreventivo
 participant ProdottoDAO
 participant PreventivoDAO
-skinparam ParticipantBackgroundColor coral
-participant "homepage.html" as homepage
 
-utente -> Homepage: GET(productId)
+
+utente -> homepage: Selezione prodotto
+homepage <- homepage: showOpzioni()
+utente -> homepage: Selezione opzioni
+utente -> homepage: click submit
+homepage <- homepage: oneOptionChecked()
 skinparam ParticipantBackgroundColor aquamarine
-Homepage -> ProdottoDAO: getByCodice(productId)
-ProdottoDAO --> Homepage: prodotto
-Homepage -> ProdottoDAO: getAllOpzioniById(productId)
-ProdottoDAO --> Homepage: opzioni
-Homepage -> PreventivoDAO: getAllByUserId(id)
-PreventivoDAO --> Homepage: preventivi
-Homepage -> homepage: ThymeLeaf Engine
-homepage -->utente: Pagina HTML
-
-utente -> homepage: Submit opzioni
-homepage -> ControlloPreventivo: POST(form)
-ControlloPreventivo -[#red]-> homepage: Errore in form
-homepage -[#red]-> utente: Messaggio errore
+homepage -> ControlloPreventivo: AJAX POST()
+ControlloPreventivo -> ProdottoDAO: getByCodice(id)
+ProdottoDAO --> ControlloPreventivo: prodotto
 ControlloPreventivo -> PreventivoDAO: addPreventivo()
-ControlloPreventivo --> utente: redirect(homepage) 
+ControlloPreventivo --> homepage: [preventivi]\nstatus code 200
+homepage <- homepage: setPreventivi(preventivi)
+homepage --> utente: Aggiorna vista
 @enduml

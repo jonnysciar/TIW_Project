@@ -6,17 +6,22 @@ endlegend
 
 actor Utente as utente
 skinparam ParticipantBackgroundColor coral
-participant "registrazione.html" as registrazione
+participant "registrazione.html +\nregistrazione.js" as registrazione
 
 utente -> registrazione: click submit
 
 skinparam ParticipantBackgroundColor aquamarine
-registrazione -> ControlloRegistrazione: POST(dati)
-ControlloRegistrazione -[#red]-> registrazione: [dati errore]
+registrazione <- registrazione: validateEmail(email)
+registrazione <- registrazione: password.match(password2)
+registrazione -[#red]-> utente: Messaggio errore
+registrazione -> ControlloRegistrazione: AJAX POST(dati)
+ControlloRegistrazione -[#red]-> registrazione: [dati errore]\nstatus code 400
 registrazione -[#red]-> utente: Messaggio errore
 ControlloRegistrazione -> UtenteDao: addUtente(utente)
 UtenteDao --> ControlloRegistrazione: response
-ControlloRegistrazione -[#red]-> registrazione: [response == false]
+ControlloRegistrazione -[#red]-> registrazione: [response == false]\nstatus code 400
 registrazione -[#red]-> utente: Messaggio errore
-ControlloRegistrazione --> utente: [response == true]\nredirect(login)
+ControlloRegistrazione --> registrazione: [response == true]\nstatus code 200
+registrazione <- registrazione: window.location.href = "login"
+registrazione --> utente: Aggiorna vista
 @enduml

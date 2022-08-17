@@ -6,12 +6,15 @@ endlegend
 
 actor Utente as utente
 skinparam ParticipantBackgroundColor coral
-participant "Pagina generica" as login
+participant "Pagina generica +\nutils.js" as login
 
 utente -> login: click logout
 
 skinparam ParticipantBackgroundColor aquamarine
 login -> Logout: GET()
 Logout -> Session: invalidate()
-Logout --> utente: redirect(login)
+Logout --> login: status code 200
+login <- login: SessionStorage.clear()
+login <- login: window.location.href = "login"
+login --> utente: Aggiorna vista
 @enduml
