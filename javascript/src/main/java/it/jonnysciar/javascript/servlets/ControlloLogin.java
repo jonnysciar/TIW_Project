@@ -3,7 +3,6 @@ package it.jonnysciar.javascript.servlets;
 import com.google.gson.Gson;
 import it.jonnysciar.javascript.beans.Utente;
 import it.jonnysciar.javascript.dao.UtenteDAO;
-import org.apache.commons.text.StringEscapeUtils;
 
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -22,10 +21,11 @@ public class ControlloLogin extends DBServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
 
-        String username = StringEscapeUtils.escapeJava(request.getParameter("username"));
-        String password = StringEscapeUtils.escapeJava(request.getParameter("password"));
+        String username = sanitizeString(request.getParameter("username"));
+        String password = sanitizeString(request.getParameter("password"));
 
         if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

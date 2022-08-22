@@ -2,7 +2,6 @@ package it.jonnysciar.javascript.servlets;
 
 import it.jonnysciar.javascript.beans.Utente;
 import it.jonnysciar.javascript.dao.UtenteDAO;
-import org.apache.commons.text.StringEscapeUtils;
 
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -21,15 +20,16 @@ public class ControlloRegistrazione extends DBServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
 
-        String nome = StringEscapeUtils.escapeJava(request.getParameter("nome"));
-        String cognome = StringEscapeUtils.escapeJava(request.getParameter("cognome"));
-        String email = StringEscapeUtils.escapeJava(request.getParameter("email"));
-        String username = StringEscapeUtils.escapeJava(request.getParameter("username"));
-        String password = StringEscapeUtils.escapeJava(request.getParameter("password"));
-        String password2 = StringEscapeUtils.escapeJava(request.getParameter("password2"));
-        String checkbox = StringEscapeUtils.escapeJava(request.getParameter("checkbox"));
+        String nome = sanitizeString(request.getParameter("nome"));
+        String cognome = sanitizeString(request.getParameter("cognome"));
+        String email = sanitizeString(request.getParameter("email"));
+        String username = sanitizeString(request.getParameter("username"));
+        String password = sanitizeString(request.getParameter("password"));
+        String password2 = sanitizeString(request.getParameter("password2"));
+        String checkbox = sanitizeString(request.getParameter("checkbox"));
 
         if (nome == null || cognome == null || email == null || username == null || password == null || password2 == null ||
             nome.isEmpty() || cognome.isEmpty() || email.isEmpty() || username.isEmpty() || password.isEmpty() || password2.isEmpty()) {
