@@ -3,7 +3,6 @@ package it.jonnysciar.javascript.servlets;
 import it.jonnysciar.javascript.beans.Utente;
 import it.jonnysciar.javascript.dao.UtenteDAO;
 import org.apache.commons.text.StringEscapeUtils;
-import org.apache.commons.validator.routines.EmailValidator;
 
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -39,7 +38,7 @@ public class ControlloRegistrazione extends DBServlet {
         } else if (!password.equals(password2)) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println("Le password inserite non coincidono");
-        } else if (!EmailValidator.getInstance().isValid(email)) {
+        } else if (!validateEmail(email)) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().println("Email non valida");
         } else {
@@ -55,6 +54,12 @@ public class ControlloRegistrazione extends DBServlet {
                 response.getWriter().println(errorField + " già in uso");
             }
         }
+    }
+
+    private boolean validateEmail(String email) {
+        String regexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
+                + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+        return email.matches(regexPattern);
     }
 
 }
