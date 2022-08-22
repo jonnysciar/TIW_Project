@@ -5,7 +5,6 @@ import it.jonnysciar.html_pure.beans.Prodotto;
 import it.jonnysciar.html_pure.beans.Utente;
 import it.jonnysciar.html_pure.dao.PreventivoDAO;
 import it.jonnysciar.html_pure.dao.ProdottoDAO;
-import org.apache.commons.text.StringEscapeUtils;
 import org.thymeleaf.context.WebContext;
 
 import javax.servlet.annotation.WebServlet;
@@ -25,7 +24,9 @@ public class ControlloPreventivo extends ThymeLeafServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
+
         String path = "/WEB-INF/templates/homepageUtente.html";
         final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
 
@@ -34,7 +35,7 @@ public class ControlloPreventivo extends ThymeLeafServlet {
         String[] optionsArray = request.getParameterValues("checkbox");
         Prodotto prodotto;
         try {
-            prodotto = prodottoDAO.getByNome(StringEscapeUtils.escapeJava(request.getParameter("productName")));
+            prodotto = prodottoDAO.getByNome(sanitizeString(request.getParameter("productName")));
         } catch (SQLException e) {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "DB Error!");
             return;

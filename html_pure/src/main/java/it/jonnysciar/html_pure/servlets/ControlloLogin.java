@@ -2,7 +2,6 @@ package it.jonnysciar.html_pure.servlets;
 
 import it.jonnysciar.html_pure.beans.Utente;
 import it.jonnysciar.html_pure.dao.UtenteDAO;
-import org.apache.commons.text.StringEscapeUtils;
 import org.thymeleaf.context.WebContext;
 
 import javax.servlet.ServletContext;
@@ -21,9 +20,11 @@ public class ControlloLogin extends ThymeLeafServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
 
-        String username = StringEscapeUtils.escapeJava(request.getParameter("username"));
-        String password = StringEscapeUtils.escapeJava(request.getParameter("password"));
+        String username = sanitizeString(request.getParameter("username"));
+        String password = sanitizeString(request.getParameter("password"));
 
         if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing credential value");

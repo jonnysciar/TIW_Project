@@ -1,6 +1,8 @@
 package it.jonnysciar.html_pure.servlets;
 
 import it.jonnysciar.html_pure.database.DBConnection;
+import org.apache.commons.text.StringEscapeUtils;
+import org.apache.commons.text.translate.UnicodeUnescaper;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
@@ -15,6 +17,7 @@ public abstract class ThymeLeafServlet extends HttpServlet {
 
     protected Connection connection = null;
     protected TemplateEngine templateEngine;
+    private final UnicodeUnescaper unicodeUnescaper = new UnicodeUnescaper();
 
     @Override
     public void init() throws ServletException {
@@ -37,4 +40,7 @@ public abstract class ThymeLeafServlet extends HttpServlet {
         }
     }
 
+    protected String sanitizeString(String s) {
+        return unicodeUnescaper.translate(StringEscapeUtils.escapeJava(s));
+    }
 }
