@@ -3,7 +3,6 @@ package it.jonnysciar.html_pure.servlets;
 import it.jonnysciar.html_pure.beans.Utente;
 import it.jonnysciar.html_pure.dao.UtenteDAO;
 import org.apache.commons.text.StringEscapeUtils;
-import org.apache.commons.validator.routines.EmailValidator;
 import org.thymeleaf.context.WebContext;
 
 import javax.servlet.annotation.WebServlet;
@@ -41,7 +40,7 @@ public class ControlloRegistrazione extends ThymeLeafServlet {
         } else if (!password.equals(password2)) {
             ctx.setVariable("errorMsg", "Le password inserite non coincidono");
             templateEngine.process(path, ctx, response.getWriter());
-        } else if (!EmailValidator.getInstance().isValid(email)) {
+        } else if (!validateEmail(email)) {
             ctx.setVariable("errorMsg", "email non valida");
             templateEngine.process(path, ctx, response.getWriter());
         } else {
@@ -58,5 +57,11 @@ public class ControlloRegistrazione extends ThymeLeafServlet {
                 templateEngine.process(path, ctx, response.getWriter());
             }
         }
+    }
+
+    private boolean validateEmail(String email) {
+        String regexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
+                + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+        return email.matches(regexPattern);
     }
 }
