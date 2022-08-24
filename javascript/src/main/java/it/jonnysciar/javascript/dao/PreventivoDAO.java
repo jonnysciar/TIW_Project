@@ -38,17 +38,17 @@ public class PreventivoDAO extends DAO{
                     statement.executeUpdate();
                 } catch (SQLException e) {
                     connection.rollback();
-                    connection.setAutoCommit(false);
+                    connection.setAutoCommit(true);
                     throw e;
                 }
             } else {
                 connection.rollback();
-                connection.setAutoCommit(false);
+                connection.setAutoCommit(true);
                 throw new SQLException();
             }
         }
         connection.commit();
-        connection.setAutoCommit(false);
+        connection.setAutoCommit(true);
     }
 
     private int getNextId() throws SQLException {
